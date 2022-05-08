@@ -68,9 +68,9 @@ int main()
     // char c = 'X';
     // cout << insertAt(t1, pos, c) << endl;
 
-    string t1 = "Esto podria ser algoritmos prueba";
-    int pos = 8;
-    string r = removeAt(t1, pos);
-    cout << r << endl;
+    // string t1 = "Esto podria ser algoritmos prueba";
+    // int pos = 8;
+    // string r = removeAt(t1, pos);
+    // cout << r << endl;
     return 0;
 }
