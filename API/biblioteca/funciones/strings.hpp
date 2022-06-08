@@ -35,11 +35,15 @@ int charCount(string s, char c)
 string substring(string s, int d, int h)
 {
     string newStrings = "";
-    while (d < h)
+    for (int i = d; i < h; i++)
     {
-        newStrings += s[d];
-        d++;
+        newStrings += s[i];
     }
+    // while (d < h)
+    // {
+    //     newStrings += s[d];
+    //     d++;
+    // }
     return newStrings;
 }
 // 4
@@ -59,7 +63,7 @@ int indexOf(string s, char c)
 {
     int pos = 0;
     bool encontrado = false;
-    while (encontrado == false)
+    while (pos <= length(s) && encontrado == false)
     {
         if (s[pos] == c)
         {
@@ -69,9 +73,8 @@ int indexOf(string s, char c)
         {
             pos++;
         }
-        // (s[pos] == c) ? encontrado = true : pos++;
     }
-    return pos;
+    return (pos == length(s) + 1) ? -1 : pos;
 }
 // 6
 int indexOf(string s, char c, int offSet) // ok
@@ -141,7 +144,7 @@ int indexOf(string s, string toSearch, int offset) // ok
 int lastIndexOf(string s, char c)
 {
     int pos = 0;
-    int posEncontrado = 0;
+    int posEncontrado = -1;
     while (pos <= length(s))
     {
         if (s[pos] == c)
@@ -155,7 +158,7 @@ int lastIndexOf(string s, char c)
 // 10
 int indexOfN(string s, char c, int n)
 {
-    int posEncontrado = 0, cantCharacter = 1;
+    int posEncontrado = -1, cantCharacter = 1;
     for (int pos = 0; pos < length(s); pos++)
     {
         if (s[pos] == c)
@@ -168,7 +171,7 @@ int indexOfN(string s, char c, int n)
         }
     }
 
-    return (posEncontrado != 0) ? posEncontrado : -1;
+    return (n > charCount(s, c)) ? length(s) : posEncontrado;
 }
 // 11
 int charToInt(char c)
@@ -302,7 +305,7 @@ string stringToString(string s)
 {
     return s;
 }
-// 21 dudosa
+// 21
 string doubleToString(double d)
 {
     int count = 0, i = d;
@@ -319,19 +322,19 @@ string doubleToString(double d)
     newString += "." + decimalString;
     return newString;
 }
-// 22 falta esta, no funciona bien
+// 22
 double stringToDouble(string s)
 {
-    double numFinal = 0, numFracc = 0;
+    double numFinal = 0, numFracc = 0, numEntero = 0;
     bool fraccion = false;
-    int posReverse = indexOf(s, ".") - 1, numEntero = 0, numPow = 0;
+    int posReverse = indexOf(s, ".") - 1;
     for (int pos = 0; pos < length(s); pos++)
     {
-        int val = (s[pos] - 48);
-        if (val != -2 && fraccion == false)
+        double val = (s[pos] - 48);
+        if (val != -2 && !fraccion)
         {
             numEntero += (val * pow(10, posReverse));
-            cout << numEntero << endl;
+            posReverse--;
         }
         else
         {
@@ -342,14 +345,12 @@ double stringToDouble(string s)
             if (val != -2)
             {
                 numFracc += val * pow(10, posReverse);
+                posReverse--;
             }
         }
-        posReverse--;
     }
-    cout << "numEntero: " << numEntero << endl;
-    cout << "numFracc: " << numFracc << endl;
-    numFinal = numEntero + numFracc;
-    return numFinal;
+
+    return numEntero + numFracc;
 }
 // 23
 bool isEmpty(string s)
@@ -485,29 +486,29 @@ string ltrim(string s)
     }
     return newString;
 }
-// 31 , no esta hecha bien
+// 31
 string rtrim(string s)
 {
-    string newString = "";
-    bool lastL = false;
+    string otherString = "", newString = "";
+    int posR = length(s) - 1;
     for (int pos = 0; pos < length(s); pos++)
     {
-
-        if (s[pos] != 32)
-        {
-            newString += s[pos];
-        }
-        else if (s[pos] == 32)
-        {
-            newString += s[pos];
-        }
+        newString += s[posR];
+        posR--;
     }
-    return newString;
+    newString = ltrim(newString);
+    posR = length(newString) - 1;
+    for (int pos = 0; pos < length(newString); pos++)
+    {
+        otherString += newString[posR];
+        posR--;
+    }
+    return otherString;
 }
-// 32, no hecha
+// 32
 string trim(string s)
 {
-    return "";
+    return ltrim(rtrim(s));
 }
 // 33
 string replicate(char c, int n)

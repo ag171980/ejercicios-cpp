@@ -7,12 +7,12 @@ int main()
 {
     // **tokenCout
 
-    string s = "| | |";
+    // string s = "| | |";
     // string s = "MorocoLoco";
     // string s = "La vaca lola";
-    char sep = '|';
-    int n = tokenCount(s, sep);
-    cout << n << endl;
+    // char sep = '|';
+    // int n = tokenCount(s, sep);
+    // cout << n << endl;
 
     // **addToken
 
@@ -50,15 +50,29 @@ int main()
 
     // **removeTokenAt
 
-    // string s = "eLefaLte";
+    // string s = "esLqqsLefaLte";
     // char sep = 'L';
+    // cout << s << endl;
     // int i = 0;
     // removeTokenAt(s, sep, i);
     // cout << s << endl;
     // i = 0;
     // removeTokenAt(s, sep, i);
     // cout << s << endl;
+    // cout << tokenCount(s, sep) << endl;
+    // for (int n = 0; n <= tokenCount(s, sep); n++)
+    // {
 
+    //     if (n == tokenCount(s, sep))
+    //     {
+    //         s = "";
+    //     }
+    //     else
+    //     {
+    //         removeTokenAt(s, sep, 0);
+    //     }
+    // }
+    // cout << "[" << s << "]" << endl;
     // **setTokenAt
 
     // string s = "John|Paul|George|Ringo";

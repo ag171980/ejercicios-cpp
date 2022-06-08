@@ -18,8 +18,10 @@ int main()
 
     // 3)**substring
 
-    // string s = "Palabra larga texto largo";
-    // cout << "[" << substring(s, 2, 10) << "]" << endl;
+    // string s = "a larga texto largo";
+    // string s = "    hola";
+    // cout << "[" << substring(s, 0, 4) << "]" << endl;
+    // cout << "[" << substring(s, 0, 5) << "]" << endl;
 
     // 4)**substring 2
 
@@ -28,8 +30,8 @@ int main()
 
     // 5)**indexOf
 
-    // string s = "Brutus Pucus lucus";
-    // cout << indexOf(s, 'P') << endl;
+    // string s = "Brutu Pucu lucuso";
+    // cout << indexOf(s, 'o') << endl;
 
     // 6)**indexOf
 
@@ -39,7 +41,7 @@ int main()
     // 7)**indexOf
 
     // string s = "Esto es una prueba";
-    // cout << indexOf(s, "jamon") << endl;
+    // cout << indexOf(s, "es") << endl;
 
     // 8)**indexOf
 
@@ -49,14 +51,16 @@ int main()
     // 9)**lastIndexOf
 
     // string s = "Esto es la algoritmosa";
-    // cout << lastIndexOf(s, 'a') << endl;
+    // cout << lastIndexOf(s, 'x') << endl;
 
     // 10)**indexOfN
 
     // string s = "John|Paul|George|Ringo";
+    // cout << indexOfN(s, '|', 0) << endl;
     // cout << indexOfN(s, '|', 1) << endl;
     // cout << indexOfN(s, '|', 2) << endl;
     // cout << indexOfN(s, '|', 3) << endl;
+    // cout << indexOfN(s, '|', 4) << endl;
 
     // 11)**charToInt
 
@@ -120,9 +124,9 @@ int main()
     // double d = 1390.23;
     // cout << doubleToString(d) << endl;
 
-    // 22)**stringToDouble FALTA REVISAR
+    // 22)**stringToDouble
 
-    // cout << stringToDouble("201.7") << endl; // muestra: 123.4
+    // cout << stringToDouble("42344.6") << endl;
 
     // 23)**isEmpty
 
@@ -176,18 +180,18 @@ int main()
 
     // 30)**ltrim
 
-    // string s = "Esto es una prueba     ";
-    // cout << "[" << ltrim(s) << "]" << endl;
+    // string s = "       Esto es una prueba     ";
+    // cout << "ltrim: [" << ltrim(s) << "]" << endl;
 
     // 31)**rtrim FALTA
 
-    // string s = "Esto es una prueba  ";
-    // cout << "[" << rtrim(s) << "]" << endl;
+    // string s = "     Esto es una prueba                   ";
+    // cout << "rtrim: [" << rtrim(s) << "]" << endl;
 
     // 32)**trim
 
-    // string s = "   Esto es una prueba   ";
-    // cout << "[" << trim(s) << "]" << endl;
+    // string s = "   Esto es una prueba    ";
+    // cout << "trim: [" << trim(s) << "]" << endl;
 
     // 33)**replicate
 
@@ -238,7 +242,7 @@ int main()
 
     // 39)**isLetter
 
-    // char c = '1';
+    // char c = 'a';
     // if (isLetter(c))
     // {
     //     cout << c << " es letra" << endl; // SALIDA
