@@ -50,12 +50,11 @@ int main()
 
     // **removeTokenAt
 
-    // string s = "esLqqsLefaLte";
-    // char sep = 'L';
-    // cout << s << endl;
-    // int i = 0;
-    // removeTokenAt(s, sep, i);
-    // cout << s << endl;
+    string s = "Aatrox|Akshan|Alistar|Amumu|Darius|Dr Mundo|Garen|Jayce|Jinx|Malzahar|Morgana|Pantheon|Quiyana|Trundle";
+    char sep = '|';
+    int i = 1;
+    removeTokenAt(s, sep, i);
+    cout << s << endl;
     // i = 0;
     // removeTokenAt(s, sep, i);
     // cout << s << endl;
@@ -73,13 +72,22 @@ int main()
     //     }
     // }
     // cout << "[" << s << "]" << endl;
+
     // **setTokenAt
 
-    // string s = "John|Paul|George|Ringo";
+    // string s = "Pelicano|Picanaso|Parametro";
+    // string s = "Jayce|Pantheon|Amumu|Alistar|Aatrox|Malzahar|Darius";
     // char sep = '|';
     // int i = 3;
-    // string t = "Messi";
+    // string t = "Jayce";
+    // // setTokenAt(s, sep, t2, j);
+    // // cout << s << endl;
     // setTokenAt(s, sep, t, i);
+    // cout << s << endl;
+    // cout << "--------------" << endl;
+    // int j = 0;
+    // string t2 = "Alistar";
+    // setTokenAt(s, sep, t2, j);
     // cout << s << endl;
 
     // **findToken

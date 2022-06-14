@@ -45,53 +45,96 @@ string getTokenAt(string s, char sep, int i)
       }
       pos++;
    }
-
    return newString;
 }
 // 4
 void removeTokenAt(string &s, char sep, int i)
 {
-   int contToken = 0, pos = 0;
+   int contToken = 0, pos = 0, cantSep = 0;
    string tokenToFind = getTokenAt(s, sep, i);
-   int posToDelete = (i == 0) ? indexOf(s, tokenToFind) + length(tokenToFind) + 1 : indexOf(s, tokenToFind);
-   string sModified = removeAt(s, posToDelete);
    string newString = "";
-   bool ready = false;
-   while (pos < length(sModified) && ready == false)
+
+   while (pos < length(s))
    {
-      if (sModified[pos] != tokenToFind[contToken])
+      if (s[pos] == sep)
       {
-         newString += sModified[pos];
+         cantSep++;
+      }
+      if (s[pos] != tokenToFind[contToken])
+      {
+         newString += s[pos];
+         contToken = 0;
       }
       else
       {
-         contToken++;
+         if (contToken != length(tokenToFind) - 1)
+         {
+            newString += s[pos];
+            contToken++;
+         }
+         else
+         {
+            newString += s[pos];
+            if (cantSep == i)
+            {
+               for (int n = (pos - contToken); n <= pos; n++)
+               {
+                  newString = removeAt(newString, (pos - contToken));
+               }
+               if (i != 0)
+               {
+                  newString = removeAt(newString, (pos - contToken) - 1);
+               }
+            }
+         }
       }
       pos++;
+   }
+   if (i == 0)
+   {
+      newString = removeAt(newString, i);
    }
    s = newString;
 }
 // 6
 void setTokenAt(string &s, char sep, string t, int i)
 {
-   int contToken = 0, pos = 0, posT = 0;
+   int contToken = 0, pos = 0, contSep = 0;
    string tokenToFind = getTokenAt(s, sep, i);
    string newString = "";
    while (pos < length(s))
    {
+      if (s[pos] == sep)
+      {
+         contSep++;
+      }
       if (s[pos] != tokenToFind[contToken])
       {
-
          newString += s[pos];
+         contToken = 0;
       }
       else
       {
-         while (posT < length(t))
+         if (contToken != length(tokenToFind) - 1)
          {
-            newString += t[posT];
-            posT++;
+            newString += s[pos];
+            contToken++;
          }
-         contToken++;
+         else
+         {
+            newString += s[pos];
+            if (contSep == i)
+            {
+               for (int n = (pos - contToken); n <= pos; n++)
+               {
+                  newString = removeAt(newString, (pos - contToken));
+               }
+               for (int x = 0; x < length(t); x++)
+               {
+                  newString += t[x];
+               }
+            }
+         }
       }
       pos++;
    }

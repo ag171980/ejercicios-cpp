@@ -48,21 +48,45 @@ int intFromString(string s)
 {
     return stringToInt(s);
 }
+
 int main()
 {
     // Coll<string> c = coll<string>();
-    // collAdd<string>(c, "Rammus", stringToString);
-    // collAdd<string>(c, "Alistar", stringToString);
-    // collAdd<string>(c, "Malzahar", stringToString);
-    // collAdd<string>(c, "Pantheon", stringToString);
+    // collAdd<string>(c, "Amumu", stringToString);
     // collAdd<string>(c, "Darius", stringToString);
     // collAdd<string>(c, "Jayce", stringToString);
-    // // collSort<string>(c, cmpString, stringToString, stringToString);
+    // collAdd<string>(c, "Pantheon", stringToString);
+    // collAdd<string>(c, "Alistar", stringToString);
+    // collAdd<string>(c, "Aatrox", stringToString);
+    // collAdd<string>(c, "Malzahar", stringToString);
+    // collAdd<string>(c, "Garen", stringToString);
+    // collAdd<string>(c, "Jinx", stringToString);
+    // collAdd<string>(c, "Morgana", stringToString);
+    // collAdd<string>(c, "Trundle", stringToString);
+    // collAdd<string>(c, "Quiyana", stringToString);
+    // collAdd<string>(c, "Dr Mundo", stringToString);
+    // collAdd<string>(c, "Akshan", stringToString);
+    // collSort<string>(c, cmpString, stringFromString, stringToString);
 
-    // // collFind
-    // string text = "Alistar";
-    // int pos = collFind<string>(c, text, cmpString, stringToString);
-    // cout << pos << endl;
+    // collRemoveAll
+    // collRemoveAll<string>(c);
+
+    // collRemoveAt
+    // int pos = 1;
+    // collRemoveAt<string>(c, pos);
+
+    // collFind
+    //  string buscar = "Darius";
+    //  int pos = collFind<string, string>(c, buscar, cmpString, stringFromString);
+    //  cout << buscar << " esta en la posicion " << pos << endl;
+
+    // bool endOfColl = false;
+    // string sT = collNext<string>(c, endOfColl, stringToString);
+    // while (!endOfColl)
+    // {
+    //     cout << sT << endl;
+    //     sT = collNext<string>(c, endOfColl, stringToString);
+    // }
 
     // collNext 2
     //  bool endOfColl = false;
@@ -72,21 +96,22 @@ int main()
     //      cout << s << endl;
     //      s = collNext<string>(c, endOfColl, stringToString);
     //  }
-    cout << "-------------------" << endl;
+    // cout << "-------------------" << endl;
 
     //----------------------------------------------------------------------
 
-    Coll<int> c1 = coll<int>();
-    collAdd<int>(c1, 5, intToString);
-    collAdd<int>(c1, 1, intToString);
-    collAdd<int>(c1, 7, intToString);
-    collAdd<int>(c1, 10, intToString);
-    collAdd<int>(c1, 2, intToString);
-    collAdd<int>(c1, 3, intToString);
+    // Coll<int> c1 = coll<int>();
+    // collAdd<int>(c1, 5, intToString);
+    // collAdd<int>(c1, 1, intToString);
+    // collAdd<int>(c1, 7, intToString);
+    // collAdd<int>(c1, 10, intToString);
+    // collAdd<int>(c1, 2, intToString);
+    // collAdd<int>(c1, 3, intToString);
     // collSort<int>(c1, cmpInt, intFromString, intToString);
+
     // collRemoveAt<int>(c1, 2);
     // int pos = 1;
-    // int nuevo = 111;
+    // int nuevo = 100;
     // collSetAt<int>(c1, nuevo, pos, intToString);
     // for (int i = 0; i < collSize<int>(c1); i++)
     // {
@@ -94,13 +119,13 @@ int main()
     // }
     // int encontrar = 2;
     // int pos = collFind<int>(c1, encontrar, cmpInt, stringToInt);
-    // cout << pos << endl;
-    // bool endOfColl = false;
-    // int s = collNext<int>(c1, endOfColl, stringToInt);
+    // cout <<"Encontrado en: "<< pos << endl;
+    // endOfColl = false;
+    // int s = collNext<int>(c1, endOfColl, intFromString);
     // while (!endOfColl)
     // {
-    //     cout << s << endl;
-    //     s = collNext<int>(c1, endOfColl, stringToInt);
+    //     cout << "s: " << s << endl;
+    //     s = collNext<int>(c1, endOfColl, intFromString);
     // }
 
     //----------------------------------------------------------------------
@@ -122,15 +147,17 @@ int main()
 
     // while (collHasNext<Fraccion>(c2))
     // {
-    //     string s = collNext<Fraccion>(c2, fraccionToString);
-    //     cout << s << endl;
+    //     Fraccion s = collNext<Fraccion>(c2, fraccionFromString);
+    //     cout << fraccionToString(s) << endl;
     // }
-    // bool endOfColl = false;
-    // while (collHasNext<Fraccion>(c2))
-    // {
-    //     string s = collNext<Fraccion>(c2, fraccionToString);
-    //     cout << s << endl;
-    // }
+    bool endOfColl = false;
+    Fraccion s = collNext<Fraccion>(c2, endOfColl, fraccionFromString);
+
+    while (!endOfColl)
+    {
+        cout << fraccionToString(s) << endl;
+        s = collNext<Fraccion>(c2, endOfColl, fraccionFromString);
+    }
 
     return 0;
 }

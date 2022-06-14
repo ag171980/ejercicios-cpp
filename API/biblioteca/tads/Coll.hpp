@@ -22,9 +22,9 @@ using namespace std;
 template <typename T>
 struct Coll
 {
-   int pos = 0;
+   int pos;
    char sep;
-   string s = "";
+   string s;
 };
 // OK
 template <typename T>
@@ -123,23 +123,21 @@ int collFind(Coll<T> c, K k, int cmpTK(T, K), T tFromString(string))
 template <typename T>
 void collSort(Coll<T> &c, int cmpTT(T, T), T tFromString(string), string tToString(T))
 {
-   bool sort = false;
-   while (!sort)
+   for (int i = 0; i < collSize<T>(c); i++)
    {
-      sort = true;
-      for (int i = 0; i < collSize<T>(c) - 1; i++)
+      for (int j = 0; j < collSize<T>(c); j++)
       {
          T cmp1 = collGetAt<T>(c, i, tFromString);
-         T cmp2 = collGetAt<T>(c, i + 1, tFromString);
-         if (cmpTT(cmp1, cmp2) > 0)
+         T cmp2 = collGetAt<T>(c, j, tFromString);
+         if (cmpTT(cmp1, cmp2) < 0)
          {
-            collSetAt<T>(c, cmp1, i + 1, tToString);
             collSetAt<T>(c, cmp2, i, tToString);
-            sort = false;
+            collSetAt<T>(c, cmp1, j, tToString);
          }
       }
    }
 }
+
 // a probar
 template <typename T>
 bool collHasNext(Coll<T> c)
@@ -150,9 +148,9 @@ bool collHasNext(Coll<T> c)
 template <typename T>
 T collNext(Coll<T> &c, T tFromString(string))
 {
-   T t;
-   string f = tFromString(getTokenAt(c.s, c.sep, c.pos));
-   t = f;
+   T t = tFromString(getTokenAt(c.s, c.sep, c.pos));
+   // string f = tFromString(getTokenAt(c.s, c.sep, c.pos));
+   // t = f;
    c.pos++;
    return t;
 }

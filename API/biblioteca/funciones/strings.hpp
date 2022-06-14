@@ -273,7 +273,7 @@ int stringToInt(string s, int b)
 // 17
 int stringToInt(string s)
 {
-    int num = 0;
+    double num = 0;
     int posReverse = length(s) - 1;
     for (int pos = 0; pos < length(s); pos++)
     {
@@ -451,17 +451,23 @@ string insertAt(string s, int pos, char c)
 // 29
 string removeAt(string s, int pos)
 {
-    string text = s;
-    s += " ";
-    int len = length(text);
+    string newString, ant = "", desp = "";
     for (int i = 0; i < length(s); i++)
     {
-        if (pos <= i)
+        if (pos < i)
         {
-            s[i - 1] = text[i];
+            ant += s[i];
+        }
+        else
+        {
+            if (pos != i)
+            {
+                desp += s[i];
+            }
         }
     }
-    return s;
+    newString = desp + ant;
+    return newString;
 }
 
 // 30
@@ -659,7 +665,7 @@ string toLowerCase(string s)
 // 46 FALTA
 int cmpString(string a, string b)
 {
-    int result;
+    int result = 0;
     if (a != b)
     {
         result = (a > b) ? 1 : -1;
@@ -668,6 +674,32 @@ int cmpString(string a, string b)
     {
         result = 0;
     }
+
+    // int i = 0;
+    // bool encontrado = false;
+    // int n, n2;
+    // while (i < length(a) && encontrado == false)
+    // {
+    //     n = a[i];
+    //     n2 = b[i];
+    //     if (n > n2)
+    //     {
+    //         result = 1;
+    //         encontrado = true;
+    //     }
+    //     else
+    //     {
+    //         if (n < n2)
+    //         {
+    //             result = -1;
+    //             encontrado = true;
+    //         }
+    //         else
+    //         {
+    //             i++;
+    //         }
+    //     }
+    // }
     return result;
 }
 // 47

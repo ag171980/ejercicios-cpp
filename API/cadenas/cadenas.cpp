@@ -90,12 +90,12 @@ int main()
 
     // cout << intToString(12345) << endl;
     // cout << intToString(24) << endl;
-    // cout << intToString(2512) << endl;
+    // cout << intToString(100) << endl;
 
     // 16)**stringToInt
 
     // cout << stringToInt("AB", 16) << endl;
-    // cout << stringToInt("111111", 2) << endl;
+    cout << stringToInt("1300") << endl;
 
     // 17)**stringToInt
 
@@ -177,6 +177,10 @@ int main()
 
     // string s = "Esto es una prueba";
     // cout << removeAt(s, 7) << endl;
+    // s = removeAt(s, 7);
+    // s = removeAt(s, 7);
+    // s = removeAt(s, 7);
+    // cout << s << endl;
 
     // 30)**ltrim
 
@@ -300,9 +304,13 @@ int main()
 
     // 46)**cmpString
 
-    // string s1 = "Ximena";
-    // string s2 = "Xihii";
-    // if (cmpString(s1, s2) < 0)
+    // string s1 = "Amumu";
+    // string s2 = "Alistar";
+    // if (cmpString(s1, s2) > 0)
+    // {
+    //     cout << s1 << " es mayor que " << s2 << endl;
+    // }
+    // else
     // {
     //     cout << s1 << " es menor que " << s2 << endl;
     // }
