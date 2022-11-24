@@ -51,22 +51,24 @@ int intFromString(string s)
 
 int main()
 {
-    // Coll<string> c = coll<string>();
-    // collAdd<string>(c, "Amumu", stringToString);
-    // collAdd<string>(c, "Darius", stringToString);
-    // collAdd<string>(c, "Jayce", stringToString);
-    // collAdd<string>(c, "Pantheon", stringToString);
-    // collAdd<string>(c, "Alistar", stringToString);
-    // collAdd<string>(c, "Aatrox", stringToString);
-    // collAdd<string>(c, "Malzahar", stringToString);
-    // collAdd<string>(c, "Garen", stringToString);
-    // collAdd<string>(c, "Jinx", stringToString);
-    // collAdd<string>(c, "Morgana", stringToString);
-    // collAdd<string>(c, "Trundle", stringToString);
-    // collAdd<string>(c, "Quiyana", stringToString);
-    // collAdd<string>(c, "Dr Mundo", stringToString);
-    // collAdd<string>(c, "Akshan", stringToString);
-    // collSort<string>(c, cmpString, stringFromString, stringToString);
+    Coll<string> c = coll<string>();
+    collAdd<string>(c, "z", stringToString);
+    collAdd<string>(c, "B", stringToString);
+    collAdd<string>(c, "C", stringToString);
+    collAdd<string>(c, "D", stringToString);
+    collAdd<string>(c, "E", stringToString);
+    collAdd<string>(c, "F", stringToString);
+    collAdd<string>(c, "G", stringToString);
+    collAdd<string>(c, "H", stringToString);
+    collAdd<string>(c, "I", stringToString);
+    collAdd<string>(c, "J", stringToString);
+    collAdd<string>(c, "K", stringToString);
+    collAdd<string>(c, "L", stringToString);
+    collAdd<string>(c, "M", stringToString);
+    collAdd<string>(c, "N", stringToString);
+    collAdd<string>(c, "O", stringToString);
+    collAdd<string>(c, "P", stringToString);
+    collSort<string>(c, cmpString, stringFromString, stringToString);
 
     // collRemoveAll
     // collRemoveAll<string>(c);
@@ -80,13 +82,13 @@ int main()
     //  int pos = collFind<string, string>(c, buscar, cmpString, stringFromString);
     //  cout << buscar << " esta en la posicion " << pos << endl;
 
-    // bool endOfColl = false;
-    // string sT = collNext<string>(c, endOfColl, stringToString);
-    // while (!endOfColl)
-    // {
-    //     cout << sT << endl;
-    //     sT = collNext<string>(c, endOfColl, stringToString);
-    // }
+    bool endOfColl = false;
+    string sT = collNext<string>(c, endOfColl, stringToString);
+    while (!endOfColl)
+    {
+        cout << sT << endl;
+        sT = collNext<string>(c, endOfColl, stringToString);
+    }
 
     // collNext 2
     //  bool endOfColl = false;
@@ -101,10 +103,10 @@ int main()
     //----------------------------------------------------------------------
 
     // Coll<int> c1 = coll<int>();
-    // collAdd<int>(c1, 5, intToString);
     // collAdd<int>(c1, 1, intToString);
-    // collAdd<int>(c1, 7, intToString);
     // collAdd<int>(c1, 10, intToString);
+    // collAdd<int>(c1, 5, intToString);
+    // collAdd<int>(c1, 7, intToString);
     // collAdd<int>(c1, 2, intToString);
     // collAdd<int>(c1, 3, intToString);
     // collSort<int>(c1, cmpInt, intFromString, intToString);
@@ -130,12 +132,12 @@ int main()
 
     //----------------------------------------------------------------------
 
-    Coll<Fraccion> c2 = coll<Fraccion>();
-    collAdd<Fraccion>(c2, fraccion(2, 3), fraccionToString);
-    collAdd<Fraccion>(c2, fraccion(7, 2), fraccionToString);
-    collAdd<Fraccion>(c2, fraccion(5, 6), fraccionToString);
-    collAdd<Fraccion>(c2, fraccion(7, 9), fraccionToString);
-    collAdd<Fraccion>(c2, fraccion(2, 8), fraccionToString);
+    // Coll<Fraccion> c2 = coll<Fraccion>();
+    // collAdd<Fraccion>(c2, fraccion(2, 3), fraccionToString);
+    // collAdd<Fraccion>(c2, fraccion(7, 2), fraccionToString);
+    // collAdd<Fraccion>(c2, fraccion(5, 6), fraccionToString);
+    // collAdd<Fraccion>(c2, fraccion(7, 9), fraccionToString);
+    // collAdd<Fraccion>(c2, fraccion(2, 8), fraccionToString);
 
     // collReset<Fraccion>(c2);
 
@@ -150,14 +152,14 @@ int main()
     //     Fraccion s = collNext<Fraccion>(c2, fraccionFromString);
     //     cout << fraccionToString(s) << endl;
     // }
-    bool endOfColl = false;
-    Fraccion s = collNext<Fraccion>(c2, endOfColl, fraccionFromString);
+    // bool endOfColl = false;
+    // Fraccion s = collNext<Fraccion>(c2, endOfColl, fraccionFromString);
 
-    while (!endOfColl)
-    {
-        cout << fraccionToString(s) << endl;
-        s = collNext<Fraccion>(c2, endOfColl, fraccionFromString);
-    }
+    // while (!endOfColl)
+    // {
+    //     cout << fraccionToString(s) << endl;
+    //     s = collNext<Fraccion>(c2, endOfColl, fraccionFromString);
+    // }
 
     return 0;
 }

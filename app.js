@@ -8,7 +8,7 @@ function cmp(a, b) {
     return result;
 }
 
-var arr = ["Pantheon", "Jayce", "Aatrox", "Amumu", "Malzahar", "Darius"];
+var arr = ["Amumu", "Jayce", "Aatrox", "Pantheon", "Malzahar", "Darius"];
 var aux;
 for (let i = 0; i < arr.length - 1; i++) {
     for (let j = i + 1; j < arr.length; j++) {

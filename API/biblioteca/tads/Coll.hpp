@@ -125,11 +125,11 @@ void collSort(Coll<T> &c, int cmpTT(T, T), T tFromString(string), string tToStri
 {
    for (int i = 0; i < collSize<T>(c); i++)
    {
-      for (int j = 0; j < collSize<T>(c); j++)
+      for (int j = i + 1; j < collSize<T>(c); j++)
       {
          T cmp1 = collGetAt<T>(c, i, tFromString);
          T cmp2 = collGetAt<T>(c, j, tFromString);
-         if (cmpTT(cmp1, cmp2) < 0)
+         if (cmpTT(cmp1, cmp2) > 0)
          {
             collSetAt<T>(c, cmp2, i, tToString);
             collSetAt<T>(c, cmp1, j, tToString);
@@ -138,23 +138,21 @@ void collSort(Coll<T> &c, int cmpTT(T, T), T tFromString(string), string tToStri
    }
 }
 
-// a probar
+// Probado
 template <typename T>
 bool collHasNext(Coll<T> c)
 {
    return collSize<T>(c) > c.pos;
 }
-// a probar
+// Probado
 template <typename T>
 T collNext(Coll<T> &c, T tFromString(string))
 {
    T t = tFromString(getTokenAt(c.s, c.sep, c.pos));
-   // string f = tFromString(getTokenAt(c.s, c.sep, c.pos));
-   // t = f;
    c.pos++;
    return t;
 }
-// Nao Nao
+// Probado
 template <typename T>
 T collNext(Coll<T> &c, bool &endOfColl, T tFromString(string))
 {
@@ -174,6 +172,21 @@ template <typename T>
 void collReset(Coll<T> &c)
 {
    c.pos = 0;
+}
+
+template <typename T>
+string collToString(Coll<T> c)
+{
+   return c.sep + c.s;
+}
+
+template <typename T>
+Coll<T> collFromString(string s)
+{
+   Coll<T> c;
+   c.sep = s[0];
+   c.s = substring(s, 1);
+   return c;
 }
 
 #endif
