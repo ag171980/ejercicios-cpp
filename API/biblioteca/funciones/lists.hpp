@@ -15,14 +15,14 @@ template <typename T>
 Node<T> *add(Node<T> *&p, T e)
 {
 
-   Node<T> *newNode = new Node();
+   Node<T> *newNode = new Node<T>();
    newNode->info = e;
    newNode->sig = NULL;
 
    if (p != NULL)
    {
 
-      Node *aux = p;
+      Node<T> *aux = p;
       while (aux->sig != NULL)
       {
          aux = aux->sig;
@@ -34,7 +34,7 @@ Node<T> *add(Node<T> *&p, T e)
       p = newNode;
    }
 
-   return &p;
+   return newNode;
 }
 
 template <typename T>
