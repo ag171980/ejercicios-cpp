@@ -9,10 +9,10 @@ using namespace std;
 // Info de los nodos del arbol
 struct HuffmanTreeInfo
 {
-   unsigned int c;
-   unsigned int n;
-   HuffmanTreeInfo* left;
-   HuffmanTreeInfo* right;
+   unsigned int c; //byte
+   unsigned int n; //cantidad de ocurrencias
+   HuffmanTreeInfo* left;  //puntero al hijo izquierdo
+   HuffmanTreeInfo* right; //puntero al hijo derecho
 };
 
 HuffmanTreeInfo* huffmanTreeInfo(int c, long n, HuffmanTreeInfo* left, HuffmanTreeInfo* right)
@@ -151,6 +151,11 @@ void huffmanTreeDemo()
    }
 }
 
+struct HuffmaneTable
+{
+	unsigned int n;
+	string code;
+};
 
 
 #endif

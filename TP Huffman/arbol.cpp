@@ -1,5 +1,6 @@
 #include <iostream>
 #include "../API/biblioteca/funciones/lists.hpp"
+#include "../API/biblioteca/tads/List.hpp"
 #include "../API/biblioteca/tads/huffman/HuffmanSetup.hpp"
 using namespace std;
 
@@ -62,6 +63,38 @@ using namespace std;
 
 int main()
 {
+
+    List<int> lst = list<int>();
+    listAdd<int>(lst, 1);
+    listAdd<int>(lst, 5);
+    listAdd<int>(lst, 3);
+
+    listReset<int>(lst);
+    cout << listSize<int>(lst) << endl;
+    int e = listRemoveFirst<int>(lst);
+    cout << e << endl;
+
+    cout << listSize<int>(lst) << endl;
+
+    e = listRemoveFirst<int>(lst);
+    cout << e << endl;
+
+    cout << listSize<int>(lst) << endl;
+
+    e = listRemoveFirst<int>(lst);
+    cout << e << endl;
+    cout << listSize<int>(lst) << endl;
+
+    e = listRemoveFirst<int>(lst);
+    cout << e << endl;
+    // while (listSize<int>(lst))
+    // {
+    //     int *e = listNext<int>(lst);
+    //     cout << *e << endl;
+    // }
+
+    listFree<int>(lst);
+
     // int dato, opcion, contador = 0;
 
     // do
@@ -94,10 +127,10 @@ int main()
 
     // } while (opcion != 3);
 
-    HuffmanTreeInfo *root = huffmanTreeCreateDemoTree();
+    // HuffmanTreeInfo *root = huffmanTreeCreateDemoTree();
 
-    HuffmanTree ht = huffmanTree(root);
-    cout << &root << endl;
+    // HuffmanTree ht = huffmanTree(root);
+    // cout << &root << endl;
     // string cod;
     // while (huffmanTreeHasNext(ht))
     // {
