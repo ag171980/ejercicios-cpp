@@ -9,6 +9,8 @@ using namespace std;
 template<typename T>
 struct Stack
 {
+	Node<T>* p = NULL;
+	int contador=0;
 };
 
 template<typename T>
@@ -21,26 +23,33 @@ Stack<T> stack()
 template<typename T>
 T* stackPush(Stack<T>& st,T e)
 {
-   return NULL;
+   Node<T>* aux = push(st.p,e);
+   T* t = &aux->info;
+   st.contador++;
+   return t;
 }
 
 template<typename T>
 T stackPop(Stack<T>& st)
 {
-   T t;
+	T t = pop(st.p);
+	st.contador--;
    return t;
 }
 
 template<typename T>
 bool stackIsEmpty(Stack<T> st)
 {
-   return true;
+	if(st.contador==0)
+		return true;
+   	else
+   		return false;
 }
 
 template<typename T>
 int stackSize(Stack<T> st)
 {
-   return 0;
+   return st.contador;
 }
 
 #endif

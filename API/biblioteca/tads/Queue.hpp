@@ -9,6 +9,8 @@ using namespace std;
 template<typename T>
 struct Queue
 {
+	Node<T>* p = NULL;
+	int contador = 0;
 };
 
 template<typename T>
@@ -21,26 +23,33 @@ Queue<T> queue()
 template<typename T>
 T* queueEnqueue(Queue<T>& q,T e)
 {
-   return NULL;
+   Node<T>* aux = add<T>(q.p,e);
+	T* t = &aux->info;
+	q.contador++;
+   return t;
 }
 
 template<typename T>
 T queueDequeue(Queue<T>& q)
 {
-   T t;
+   T t = removeFirst(q.p);
+   q.contador--;
    return t;
 }
 
 template<typename T>
 bool queueIsEmpty(Queue<T> q)
 {
-   return true;
+	if(q.contador==0)
+		return true;
+	else
+		return false;
 }
 
 template<typename T>
 int queueSize(Queue<T> q)
 {
-   return 0;
+   return q.contador;
 }
 
 #endif

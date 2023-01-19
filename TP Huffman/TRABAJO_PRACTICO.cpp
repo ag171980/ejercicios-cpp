@@ -48,7 +48,10 @@ void contarOcurrencias(string fName, HuffmaneTable tabla[])
 
 int cmpHuff(HuffmanTreeInfo a, HuffmanTreeInfo b)
 {
-	return b.n - a.n;
+	if(a.c <256 && b.c<256 ) 
+		return a.n - b.n;
+	else
+		return a.c - b.c;
 }
 
 void crearLista(List<HuffmanTreeInfo>& lista, HuffmaneTable tabla[])
@@ -64,11 +67,66 @@ void crearLista(List<HuffmanTreeInfo>& lista, HuffmaneTable tabla[])
 		{
 			nodo.c = indice;
 			nodo.n = contador;
+			nodo.left = NULL;
+			nodo.right = NULL;
 			listOrderedInsert<HuffmanTreeInfo>(lista,nodo,cmpHuff);
 		}
 		indice++;
 	}
 	
+}
+
+void mostrarLista(List<HuffmanTreeInfo> lista)
+{
+	while(listHasNext(lista))
+	{
+		HuffmanTreeInfo* p = listNext<HuffmanTreeInfo>(lista);
+		cout<<"["<<p->c<<"],{"<<p->n<<"}"<<endl;
+	}
+}
+
+bool tieneHijos(HuffmanTreeInfo nodo)
+{
+	if(nodo.left == NULL && nodo.right == NULL)
+		return false;
+	else 
+		return true;
+}
+
+HuffmanTreeInfo* crearNodo(HuffmanTreeInfo* nododer, HuffmanTreeInfo* nodoizq, int i)
+{
+ 	//Creo un nuevo nodo.
+	HuffmanTreeInfo* newnodo = new HuffmanTreeInfo();
+	newnodo->c = 255+i;
+	newnodo->n = nodoizq->n + nododer->n;
+	newnodo->right = nododer;
+	newnodo->left = nodoizq;
+
+	return newnodo;
+}
+
+HuffmanTreeInfo* crearArbol(List<HuffmanTreeInfo>& lista)
+{
+	int i = 1;
+	while(listSize(lista)>1) //mientras que la lista tenga mas de un elemento
+	{
+		HuffmanTreeInfo* nododer = new HuffmanTreeInfo();
+		HuffmanTreeInfo* nodoizq = new HuffmanTreeInfo();
+
+		//elimino los dos primeros nodos de la lista
+		*nododer = listRemoveFirst(lista);
+		*nodoizq = listRemoveFirst(lista);
+
+		//creo un nuevo nodo = newnodo
+		HuffmanTreeInfo* newnodo = new HuffmanTreeInfo();
+		newnodo = crearNodo(nododer,nodoizq, i);
+		listOrderedInsert<HuffmanTreeInfo>(lista,*newnodo,cmpHuff);
+		
+		i++;
+	}
+	HuffmanTreeInfo* root = listNext(lista);
+
+	return root;
 }
 
 
@@ -86,7 +144,25 @@ void cargarCodigosEnTabla(HuffmanTreeInfo* raiz, HuffmaneTable tabla[])
 
 void grabarArchivoComprimido(string fName,HuffmaneTable tabla[])
 {
+	
 }
+
+void recorrerArbol(List<HuffmanTreeInfo>& lista)
+{
+   // obtengo el arbol
+   HuffmanTreeInfo* raiz = crearArbol(lista);
+
+   // recorro el arbol usando TAD HuffmanTree
+   HuffmanTree ht = huffmanTree(raiz);
+
+   string cod;
+   while( huffmanTreeHasNext(ht) )
+   {
+      HuffmanTreeInfo* x = huffmanTreeNext(ht,cod);
+      cout << char(x->c) << ", ("<<x->n <<"), " << "[" << cod <<"]" << endl;
+   }
+}
+
 
 
 void comprimir (string fName)
@@ -99,12 +175,16 @@ void comprimir (string fName)
 	//paso 2
 	List<HuffmanTreeInfo> lista = list<HuffmanTreeInfo>();
 	crearLista(lista,tabla);
+	//mostrarLista(lista);
 	
 	//paso 3
-//	HuffmanTreeInfo* raiz = crearArbol (lista);
+	//HuffmanTreeInfo* raiz = crearArbol (lista);
+	//mostrarLista(lista);
+	recorrerArbol(lista);
 	
 	// Recorro el arbol para obtener los codigos y los cargo en el array de contadores, en el campo code
-//	cargarCodigosEnTabla(raiz,tabla);
+	//cargarCodigosEnTabla(raiz,tabla);
+	//recorrerArbol(raiz);
 	
 	//Grabo el archivo comprimido
 	grabarArchivoComprimido (fName,tabla);
