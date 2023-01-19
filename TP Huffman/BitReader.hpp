@@ -4,7 +4,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
-#include "../../funciones/strings.hpp"
+#include "biblioteca/funciones/strings.hpp"
 
 using namespace std;
 
