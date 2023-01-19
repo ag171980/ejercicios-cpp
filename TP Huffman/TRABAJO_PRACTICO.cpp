@@ -124,15 +124,6 @@ void cargarCodigosEnTabla(HuffmanTreeInfo *raiz, HuffmaneTable tabla[]) {
 void grabarArchivoComprimido(string fName, HuffmaneTable tabla[]) {
 	FILE *f = fopen("prueba.txt.huf", "w+r");
 	int pos;
-	char c = read<char>(f);
-	while (!feof(f))
-	{
-		string code = tabla[pos].code;
-		write(code,f);
-
-		c = read(f);
-		pos++;
-	}
 	fclose(f);
 }
 
