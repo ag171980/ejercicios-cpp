@@ -4,7 +4,11 @@
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
+<<<<<<< HEAD
 #include "./biblioteca/funciones/strings.hpp"
+=======
+#include "biblioteca/funciones/strings.hpp"
+>>>>>>> 9b804d1a2b7a938fb59e393c69064f5cb1065f2b
 
 using namespace std;
 
