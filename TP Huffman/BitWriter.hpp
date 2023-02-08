@@ -5,21 +5,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "biblioteca/funciones/strings.hpp"
-<<<<<<< HEAD
 #include "biblioteca/funciones/files.hpp"
-
-=======
->>>>>>> 9b804d1a2b7a938fb59e393c69064f5cb1065f2b
 
 using namespace std;
 
-string arrayToString(unsigned char bits[],int cantidad)
+string arrayToString(unsigned char bits[], int cantidad)
 {
-	string num="";
+	string num = "";
 	int i = 0;
-	while(i<cantidad)
+	while (i < cantidad)
 	{
-		num = insertAt(num,i,bits[i]);
+		num = insertAt(num, i, bits[i]);
 		i++;
 	}
 	return num;
@@ -27,35 +23,36 @@ string arrayToString(unsigned char bits[],int cantidad)
 
 struct BitWriter
 {
-	unsigned char bits[8];          //cambi� de int a char
-	FILE* f;
+	unsigned char bits[8]; // cambi� de int a char
+	FILE *f;
 	int cont;
 	int acum;
 };
 
-BitWriter bitWriter(FILE* f)
+BitWriter bitWriter(FILE *f)
 {
 	BitWriter bw;
 	bw.f = f;
 	bw.cont = 0;
 	bw.acum = 0;
 
-   return bw;
+	return bw;
 }
 
-void bitWriterWrite(BitWriter& bw,int bit)
+void bitWriterWrite(BitWriter &bw, int bit)
 {
-	if(bw.cont == 8)
+	// cout << bw.cont << endl;
+	if (bw.cont == 8)
 	{
-		int codigo = stringToInt(arrayToString(bw.bits,8),2);
-		//cout<<arrayToString(bw.bits,bw.cont)<<endl;
+		int codigo = stringToInt(arrayToString(bw.bits, 8), 2);
+		// cout<<arrayToString(bw.bits,bw.cont)<<endl;
 		char ch = static_cast<char>(codigo);
-		write<unsigned char>(bw.f,ch);  
+		write<unsigned char>(bw.f, ch);
 		bw.cont = 0;
-		int i =0;
-		while(i < 8)
+		int i = 0;
+		while (i < 8)
 		{
-			bw.bits[i]=0;
+			bw.bits[i] = 0;
 			i++;
 		}
 	}
@@ -65,23 +62,23 @@ void bitWriterWrite(BitWriter& bw,int bit)
 	bw.acum++;
 }
 
-void bitWriterWrite(BitWriter& bw, string bits)      //funcion agregada
+void bitWriterWrite(BitWriter &bw, string bits) // funcion agregada
 {
 	int i = 0;
-	while(i<length(bits))
+	while (i < length(bits))
 	{
-		bitWriterWrite(bw,stringToInt(substring(bits,i,i+1)));
+		bitWriterWrite(bw, stringToInt(substring(bits, i, i + 1)));
 		i++;
 	}
 }
 
-void bitWriterFlush(BitWriter& bw)
+void bitWriterFlush(BitWriter &bw)
 {
-	while((bw.acum % 8) != 0)
+	while ((bw.acum % 8) != 0)
 	{
 		bitWriterWrite(bw, 0);
 	}
-	if(bw.cont == 8)
+	if (bw.cont == 8)
 	{
 		write<int>(bw.f, *bw.bits);
 		bw.cont = 0;
