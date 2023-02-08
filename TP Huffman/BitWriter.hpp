@@ -10,9 +10,21 @@
 
 using namespace std;
 
+string arrayToString(unsigned char bits[],int cantidad)
+{
+	string num="";
+	int i = 0;
+	while(i<cantidad)
+	{
+		num = insertAt(num,i,bits[i]);
+		i++;
+	}
+	return num;
+}
+
 struct BitWriter
 {
-	int bits[8];
+	unsigned char bits[8];          //cambi� de int a char
 	FILE* f;
 	int cont;
 	int acum;
@@ -30,17 +42,22 @@ BitWriter bitWriter(FILE* f)
 
 void bitWriterWrite(BitWriter& bw,int bit)
 {
-	if(bw.cont == 8)        
+	if(bw.cont == 8)
 	{
-		int x = 0;
-		while(x<8)
-		{
-			write<int>(bw.f,bw.bits[x]);
-			x++;
-		}        
+		int codigo = stringToInt(arrayToString(bw.bits,8),2);
+		//cout<<arrayToString(bw.bits,bw.cont)<<endl;
+		char ch = static_cast<char>(codigo);
+		write<unsigned char>(bw.f,ch);  
 		bw.cont = 0;
+		int i =0;
+		while(i < 8)
+		{
+			bw.bits[i]=0;
+			i++;
+		}
 	}
-	bw.bits[bw.cont] = bit;
+	char bitc = intToChar(bit);
+	bw.bits[bw.cont] = bitc;
 	bw.cont++;
 	bw.acum++;
 }
