@@ -141,7 +141,7 @@ char contarHojas(HuffmaneTable tabla[])
 
 void escribirRegistro(FILE *fc, string code, char caracter)
 {
-	cout << caracter << length(code) << code << endl;
+	cout << caracter << "(" << sizeof(caracter) << "), " << length(code) << "(" << sizeof(intToChar(length(code))) << "), " << code << "(" << sizeof(code) << ")" << endl;
 	write<char>(fc, caracter);
 	write<char>(fc, char(length(code)));
 	for (int i = 0; i < length(code); i++)
