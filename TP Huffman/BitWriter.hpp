@@ -9,21 +9,10 @@
 
 using namespace std;
 
-string arrayToString(unsigned char bits[], int cantidad)
-{
-	string num = "";
-	int i = 0;
-	while (i < cantidad)
-	{
-		num = insertAt(num, i, bits[i]);
-		i++;
-	}
-	return num;
-}
-
 struct BitWriter
 {
 	unsigned char bits[8]; // cambi� de int a char
+	string bitsAux;
 	FILE *f;
 	int cont;
 	int acum;
@@ -39,15 +28,37 @@ BitWriter bitWriter(FILE *f)
 	return bw;
 }
 
+string arrayToString(unsigned char bits[], int cantidad)
+{
+	string num = "";
+	string numAux ="";
+	int i = 0;
+	while (i < cantidad)
+	{
+//		cout<<bits[i]<<endl;
+		numAux +=bits[i];
+		cout<<numAux<<endl;
+//		cout<<"insertAt: ("<<num<<", "<<i<<", "<<bits[i]<<")"<<endl;
+		num = insertAt(num, i, bits[i]);
+		i++;
+	}
+	return numAux;
+}
+
 void bitWriterWrite(BitWriter &bw, int bit)
 {
-	// cout << bw.cont << endl;
 	if (bw.cont == 8)
 	{
-		int codigo = stringToInt(arrayToString(bw.bits, 8), 2);
+//		int codigo = stringToInt(arrayToString(bw.bits, 8), 2);
+int codigo = stringToInt(arrayToString(bw.bits, 8), 2);
+		string codigoString = intToString(codigo);
+		for(int i = 0; i < length(codigoString); i++){
+		write<unsigned char>(bw.f, char(codigoString[i]));
+		}
+		
 		// cout<<arrayToString(bw.bits,bw.cont)<<endl;
-		char ch = static_cast<char>(codigo);
-		write<unsigned char>(bw.f, ch);
+//		char ch = static_cast<char>(codigo);
+//		write<unsigned char>(bw.f, char(codigo));
 		bw.cont = 0;
 		int i = 0;
 		while (i < 8)
@@ -55,8 +66,10 @@ void bitWriterWrite(BitWriter &bw, int bit)
 			bw.bits[i] = 0;
 			i++;
 		}
+		cout<<"------------------"<<endl;
 	}
 	char bitc = intToChar(bit);
+//	cout<<bitc<<endl;
 	bw.bits[bw.cont] = bitc;
 	bw.cont++;
 	bw.acum++;
@@ -67,6 +80,9 @@ void bitWriterWrite(BitWriter &bw, string bits) // funcion agregada
 	int i = 0;
 	while (i < length(bits))
 	{
+		//		cout<<bits[i]<<endl;
+		// Pasa de char a int
+		//		cout<<stringToInt(substring(bits, i, i + 1))<<endl;
 		bitWriterWrite(bw, stringToInt(substring(bits, i, i + 1)));
 		i++;
 	}

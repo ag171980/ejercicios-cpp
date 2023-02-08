@@ -141,18 +141,18 @@ char contarHojas(HuffmaneTable tabla[])
 
 void escribirRegistro(FILE *fc, string code, char caracter)
 {
-	cout << caracter << "(" << sizeof(caracter) << "), " << length(code) << "(" << sizeof(intToChar(length(code))) << "), " << code << "(" << sizeof(code) << ")" << endl;
-	write<char>(fc, caracter);
-	write<char>(fc, char(length(code)));
+	//	cout << caracter << "(" << sizeof(caracter) << "), " << length(code) << "(" << sizeof(intToChar(length(code))) << "), " << code << "(" << sizeof(code) << ")" << endl;
+	write<unsigned char>(fc, caracter);
+	write<unsigned char>(fc, char(length(code)));
 	for (int i = 0; i < length(code); i++)
 	{
 		if (char(code[i]) == 49)
 		{
-			write<char>(fc, '1');
+			write<unsigned char>(fc, '1');
 		}
 		else
 		{
-			write<char>(fc, '0');
+			write<unsigned char>(fc, '0');
 		}
 	}
 }
@@ -170,30 +170,41 @@ bool Leyo(char c, int contador[])
 
 void escribirCodificado(HuffmaneTable tabla[], FILE *f, FILE *fc)
 {
-	BitWriter bw = bitWriter(fc);
 	seek<char>(f, 0);
-	char c = read<char>(f);
-
-	while (!feof(f))
+	seek<char>(fc, 0);
+	BitWriter bw = bitWriter(fc);
+	//	char c = read<char>(f);
+	for (int i = 0; i < 256; i++)
 	{
-		string code = tabla[int(c)].code;
-		bitWriterWrite(bw, code);
-		c = read<char>(f);
+		if (tabla[i].n != 0)
+		{
+			string code = tabla[i].code;
+			//			cout<<code<<endl;
+			bitWriterWrite(bw, code);
+			//			c = read<char>(f);
+		}
 	}
-	// if (bw.cont != 0)
-	// {
-	// 	int codigo = stringToInt(arrayToString(bw.bits, bw.cont), 2);
-	// 	char ch = static_cast<char>(codigo);
-	// 	write<unsigned char>(bw.f, ch);
-	// }
+	//	while (!feof(f))
+	//	{
+	//		string code = tabla[int(c)].code;
+	//		bitWriterWrite(bw, code);
+	//		c = read<char>(f);
+	//	}
+	//	 if (bw.cont != 0)
+	//	 {
+	//	 	int codigo = stringToInt(arrayToString(bw.bits, bw.cont), 2);
+	//	 	char ch = static_cast<char>(codigo);
+	//	 	write<unsigned char>(bw.f, ch);
+	//	 }
 	bitWriterFlush(bw);
 }
 
 void grabarArchivoComprimido(string fName, HuffmaneTable tabla[])
 {
 	FILE *f = fopen("prueba.txt", "r+b");
-	FILE *fc = fopen("prueba.txt.huf", "w+b");
+	FILE *fc = fopen("pruebax.txt", "w+b");
 	seek<char>(f, 0);
+	seek<char>(fc, 0);
 	int filesize = fileSize<char>(f);
 	// 1. 1 byte indicando cuantas hojas conforman el arbol.
 	write<char>(fc, contarHojas(tabla));
@@ -208,25 +219,24 @@ void grabarArchivoComprimido(string fName, HuffmaneTable tabla[])
 
 	// 2. t registros (uno por cada hoja del arbol)
 	char c = read<char>(f);
-
-	// while (!feof(f))
-	// {
-	// 	cout << c << endl;
-	// 	if (!Leyo(c, contador))
-	// 	{
-	// 		string code = tabla[int(c)].code;
-	// 		// cout << "caracter: " << char(c) << ", LengthCode: " << length(code) << ", Code: " << code << endl;
-	// 		escribirRegistro(fc, code, char(c));
-	// 	}
-	// 	c = read<char>(f);
-	// }
+	//	while (!feof(f))
+	//	{
+	//		if (!Leyo(c, contador))
+	//	 	{
+	//	 		string code = tabla[int(c)].code;
+	//	 		cout << "caracter: " << char(c) << ", LengthCode: " << length(code) << ", Code: " << code << endl;
+	//	 		escribirRegistro(fc, code, char(c));
+	//	 	}
+	//	 	c = read<char>(f);
+	//	}
 	int i = 0;
 	while (i < 256)
 	{
 		if (tabla[i].n != 0)
 		{
 			string code = tabla[i].code;
-
+			// cout << "caracter: " << char(i) << ", LengthCode: " << length(code) << ", Code: " << code << endl;
+			cout << char(i) << "" << length(code) << "" << code << endl;
 			escribirRegistro(fc, code, char(i));
 		}
 		i++;
@@ -236,7 +246,7 @@ void grabarArchivoComprimido(string fName, HuffmaneTable tabla[])
 	write<unsigned int>(fc, filesize);
 
 	// 4. Informacion codificada y comprimida.
-	escribirCodificado(tabla, f, fc);
+		escribirCodificado(tabla, f, fc);
 
 	fclose(f);
 	fclose(fc);
@@ -302,7 +312,7 @@ void descomprimir(string fName)
 	{
 		// cout<<"Leo un "<<toBinary(int(c))<<endl;
 		// bitReaderRead(br);
-		cout << c << endl;
+		cout << charToInt(c) << endl;
 		c = read<char>(f);
 	}
 
