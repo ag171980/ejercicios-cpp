@@ -209,17 +209,19 @@ void grabarArchivoComprimido(string fName, HuffmaneTable tabla[])
 	// 2. t registros (uno por cada hoja del arbol)
 	char c = read<char>(f);
 
-	// while (!feof(f))
-	// {
-	// 	cout << c << endl;
-	// 	if (!Leyo(c, contador))
-	// 	{
-	// 		string code = tabla[int(c)].code;
-	// 		// cout << "caracter: " << char(c) << ", LengthCode: " << length(code) << ", Code: " << code << endl;
-	// 		escribirRegistro(fc, code, char(c));
-	// 	}
-	// 	c = read<char>(f);
-	// }
+	while (!feof(f))
+	{
+		cout << c << endl;
+		if (!Leyo(c, contador))
+		{
+			string code = tabla[int(c)].code;
+			// cout << "caracter: " << char(c) << ", LengthCode: " << length(code) << ", Code: " << code << endl;
+			escribirRegistro(fc, code, char(c));
+		}
+		c = read<char>(f);
+	}
+
+	
 	int i = 0;
 	while (i < 256)
 	{
