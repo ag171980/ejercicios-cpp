@@ -202,7 +202,7 @@ void escribirCodificado(HuffmaneTable tabla[], FILE *f, FILE *fc)
 void grabarArchivoComprimido(string fName, HuffmaneTable tabla[])
 {
 	FILE *f = fopen("prueba.txt", "r+b");
-	FILE *fc = fopen("pruebax.txt", "w+b");
+	FILE *fc = fopen("prueba.txt.huf", "w+b");
 	seek<char>(f, 0);
 	seek<char>(fc, 0);
 	int filesize = fileSize<char>(f);
