@@ -146,14 +146,15 @@ void escribirRegistro(FILE *fc, string code, char caracter)
 	write<unsigned char>(fc, char(length(code)));
 	for (int i = 0; i < length(code); i++)
 	{
-		if (char(code[i]) == 49)
-		{
-			write<unsigned char>(fc, '1');
-		}
-		else
-		{
-			write<unsigned char>(fc, '0');
-		}
+		write<char>(fc, (char(code[i]) == 49));
+//		if 
+//		{
+//			write<char>(fc, 1);
+//		}
+//		else
+//		{
+//			write<char>(fc, 0);
+//		}
 	}
 }
 
@@ -170,8 +171,8 @@ bool Leyo(char c, int contador[])
 
 void escribirCodificado(HuffmaneTable tabla[], FILE *f, FILE *fc)
 {
-	seek<char>(f, 0);
-	seek<char>(fc, 0);
+	// seek<char>(f, 0);
+	// seek<char>(fc, 0);
 	BitWriter bw = bitWriter(fc);
 	//	char c = read<char>(f);
 	for (int i = 0; i < 256; i++)
@@ -208,6 +209,8 @@ void grabarArchivoComprimido(string fName, HuffmaneTable tabla[])
 	int filesize = fileSize<char>(f);
 	// 1. 1 byte indicando cuantas hojas conforman el arbol.
 	write<char>(fc, contarHojas(tabla));
+	// 3. 4 bytes indicando longitud del archivo original. Un valor entero sin signo indicando la long. en bytes.
+	write<unsigned int>(fc, filesize);
 	int canthojas = charToInt(contarHojas(tabla));
 
 	// Creo un contador para saber si un caracter del archivo ya fue leido
@@ -242,8 +245,6 @@ void grabarArchivoComprimido(string fName, HuffmaneTable tabla[])
 		i++;
 	}
 
-	// 3. 4 bytes indicando longitud del archivo original. Un valor entero sin signo indicando la long. en bytes.
-	write<unsigned int>(fc, filesize);
 
 	// 4. Informacion codificada y comprimida.
 		escribirCodificado(tabla, f, fc);
@@ -308,12 +309,39 @@ void descomprimir(string fName)
 	int x = read<int>(f);
 	cout << "La longitud del archivo original es de " << x << " bytes" << endl;
 	c = read<char>(f);
+	string todo;
+	int primeraVez = 0;
 	while (!feof(f))
 	{
-		// cout<<"Leo un "<<toBinary(int(c))<<endl;
-		// bitReaderRead(br);
-		cout << charToInt(c) << endl;
+		
+		if((int(c) >= 65 && int(c) <= 90) || (int(c) >= 97 && int(c) <= 122)){
+			if(primeraVez != 0){
+				todo+="|";	
+			}else{
+				primeraVez++;
+			}
+			todo+=char(int(c));
+		}else{
+			todo+=intToString(int(c));
+		}
 		c = read<char>(f);
+	}
+	cout<<todo<<endl;
+	for(int i = 0; i < tokenCount(todo, '|');i++){
+		string aux = getTokenAt(todo, '|',i);
+		string code;
+		string car;
+		for(int j = 0; j < length(aux);j++){
+			if(j == 0){
+				car = aux[j];
+			}
+			if(j > 1){
+				code+= aux[j];
+			}
+		}
+		
+		cout<<"Hola yo soy el caracter "<<car<<" de longitud "<<length(code)<<" y el code es: "<<code<<endl;
+//		cout<<aux<<endl;
 	}
 
 	fclose(f);
@@ -337,7 +365,7 @@ int main()
 	}
 	*/
 
-	// descomprimir("prueba.txt.huf");
+	 descomprimir("prueba.txt.huf");
 	return 0;
 }
 

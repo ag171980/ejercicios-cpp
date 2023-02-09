@@ -53,7 +53,7 @@ void bitWriterWrite(BitWriter &bw, int bit)
 int codigo = stringToInt(arrayToString(bw.bits, 8), 2);
 		string codigoString = intToString(codigo);
 		for(int i = 0; i < length(codigoString); i++){
-		write<unsigned char>(bw.f, char(codigoString[i]));
+			write<unsigned char>(bw.f, char(codigoString[i]));
 		}
 		
 		// cout<<arrayToString(bw.bits,bw.cont)<<endl;
@@ -69,7 +69,6 @@ int codigo = stringToInt(arrayToString(bw.bits, 8), 2);
 		cout<<"------------------"<<endl;
 	}
 	char bitc = intToChar(bit);
-//	cout<<bitc<<endl;
 	bw.bits[bw.cont] = bitc;
 	bw.cont++;
 	bw.acum++;
@@ -80,9 +79,6 @@ void bitWriterWrite(BitWriter &bw, string bits) // funcion agregada
 	int i = 0;
 	while (i < length(bits))
 	{
-		//		cout<<bits[i]<<endl;
-		// Pasa de char a int
-		//		cout<<stringToInt(substring(bits, i, i + 1))<<endl;
 		bitWriterWrite(bw, stringToInt(substring(bits, i, i + 1)));
 		i++;
 	}
