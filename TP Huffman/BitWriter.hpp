@@ -49,16 +49,13 @@ void bitWriterWrite(BitWriter &bw, int bit)
 {
 	if (bw.cont == 8)
 	{
-//		int codigo = stringToInt(arrayToString(bw.bits, 8), 2);
-int codigo = stringToInt(arrayToString(bw.bits, 8), 2);
-		string codigoString = intToString(codigo);
-		for(int i = 0; i < length(codigoString); i++){
-			write<unsigned char>(bw.f, char(codigoString[i]));
+		string codigo = arrayToString(bw.bits, 8);
+		cout<<codigo<<endl;
+		for(int i = 0; i < length(codigo);i++){
+			char ch = static_cast<char>(codigo);
+			cout<<ch<<endl;
 		}
-		
-		// cout<<arrayToString(bw.bits,bw.cont)<<endl;
-//		char ch = static_cast<char>(codigo);
-//		write<unsigned char>(bw.f, char(codigo));
+		//		write<unsigned char>(bw.f, char(codigo));
 		bw.cont = 0;
 		int i = 0;
 		while (i < 8)
@@ -68,6 +65,7 @@ int codigo = stringToInt(arrayToString(bw.bits, 8), 2);
 		}
 		cout<<"------------------"<<endl;
 	}
+
 	char bitc = intToChar(bit);
 	bw.bits[bw.cont] = bitc;
 	bw.cont++;

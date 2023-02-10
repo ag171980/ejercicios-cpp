@@ -239,7 +239,8 @@ void grabarArchivoComprimido(string fName, HuffmaneTable tabla[])
 		{
 			string code = tabla[i].code;
 			// cout << "caracter: " << char(i) << ", LengthCode: " << length(code) << ", Code: " << code << endl;
-			cout << char(i) << "" << length(code) << "" << code << endl;
+//			cout << char(i) << "" << length(code) << "" << code << endl;
+			cout << code << endl;
 			escribirRegistro(fc, code, char(i));
 		}
 		i++;
@@ -365,7 +366,7 @@ int main()
 	}
 	*/
 
-	 descomprimir("prueba.txt.huf");
+//	 descomprimir("prueba.txt.huf");
 	return 0;
 }
 
