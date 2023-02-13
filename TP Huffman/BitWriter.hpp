@@ -7,6 +7,7 @@
 #include "biblioteca/funciones/strings.hpp"
 #include "biblioteca/funciones/files.hpp"
 
+
 using namespace std;
 
 struct BitWriter
@@ -30,16 +31,13 @@ BitWriter bitWriter(FILE *f)
 
 string arrayToString(unsigned char bits[], int cantidad)
 {
-	string num = "";
-	string numAux ="";
+	// `
+	string numAux = "";
 	int i = 0;
 	while (i < cantidad)
 	{
-//		cout<<bits[i]<<endl;
-		numAux +=bits[i];
-		cout<<numAux<<endl;
-//		cout<<"insertAt: ("<<num<<", "<<i<<", "<<bits[i]<<")"<<endl;
-		num = insertAt(num, i, bits[i]);
+		numAux += bits[i];
+		// num = insertAt(num, i, bits[i]);
 		i++;
 	}
 	return numAux;
@@ -50,12 +48,10 @@ void bitWriterWrite(BitWriter &bw, int bit)
 	if (bw.cont == 8)
 	{
 		string codigo = arrayToString(bw.bits, 8);
-		cout<<codigo<<endl;
-		for(int i = 0; i < length(codigo);i++){
-			char ch = static_cast<char>(codigo);
-			cout<<ch<<endl;
+		for (int i = 0; i < length(codigo); i++)
+		{
+			write<unsigned char>(bw.f, codigo[i]);
 		}
-		//		write<unsigned char>(bw.f, char(codigo));
 		bw.cont = 0;
 		int i = 0;
 		while (i < 8)
@@ -63,7 +59,6 @@ void bitWriterWrite(BitWriter &bw, int bit)
 			bw.bits[i] = 0;
 			i++;
 		}
-		cout<<"------------------"<<endl;
 	}
 
 	char bitc = intToChar(bit);
@@ -84,16 +79,29 @@ void bitWriterWrite(BitWriter &bw, string bits) // funcion agregada
 
 void bitWriterFlush(BitWriter &bw)
 {
-	while ((bw.acum % 8) != 0)
+	int cont = bw.cont;
+	string aux;
+	for (int i = 1; i <= cont; i++)
 	{
-		bitWriterWrite(bw, 0);
+		aux += bw.bits[bw.cont - i];
 	}
-	if (bw.cont == 8)
+	int cantCeros = 8 - length(aux);
+	for (int i = 0; i < cantCeros; i++)
 	{
-		write<int>(bw.f, *bw.bits);
-		bw.cont = 0;
-		bw.acum = 0;
+		aux += "0";
 	}
+	for (int i = 0; i < length(aux); i++)
+	{
+		write<unsigned char>(bw.f, aux[i]);
+	}
+	bw.cont++;
+	bw.acum++;
+	// if (bw.cont == 8)
+	// {
+	// 	write<int>(bw.f, *bw.bits);
+	// 	bw.cont = 0;
+	// 	bw.acum = 0;
+	// }
 }
 
 #endif

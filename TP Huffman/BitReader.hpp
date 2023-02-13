@@ -4,39 +4,47 @@
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
-#include "./biblioteca/funciones/strings.hpp"
+#include "biblioteca/funciones/strings.hpp"
 
 using namespace std;
 
 struct BitReader
 {
-	int bits[8];
-	int cont;
-	FILE* f;
+    unsigned char bits[8];
+    int pos;
+    int cont;
+    FILE* f;
 };
 
 BitReader bitReader(FILE* f)
 {
-	BitReader b;
-	for(int i = 0; i<8; i++)
-	{
-		b.bits[i] = read<int>(f);
-	}
-	b.cont = 0;
-	b.f = f;
+    BitReader b;
+    for(int i = 0; i<8; i++)
+    {
+        b.bits[i] = NULL;
+    }
+    b.pos = 0;
+    b.cont = 0;
+    b.f = f;
 
    return b;
 }
 
 int bitReaderRead(BitReader& br)
 {
-	int bit;
-	if(br.cont == 8)
-	{
-		bitReader(br.f);
-	}
-	bit = br.bits[br.cont];
-	br.cont++;
+    int bit;
+    if(br.cont == 0)
+    {
+        for(int i = 0; i<8; i++)
+        {
+            br.bits[i] = read<unsigned char>(br.f);
+        }
+        br.cont = 8;
+        br.pos = 0;
+    }
+    bit = br.bits[br.pos];
+    br.pos++;
+    br.cont--;
 
    return bit;
 }

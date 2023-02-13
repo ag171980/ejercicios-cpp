@@ -33,21 +33,21 @@ void vaciarTabla(HuffmaneTable tabla[])
 void contarOcurrencias(string fName, HuffmaneTable tabla[])
 {
 	FILE *f = fopen("prueba.txt", "r+b");
-	char c = read<char>(f);
+	unsigned char c = read<unsigned char>(f);
 	while (!feof(f))
 	{
 		tabla[int(c)].n++;
-		c = read<char>(f);
+		c = read<unsigned char>(f);
 	}
 	fclose(f);
 }
 
 int cmpHuff(HuffmanTreeInfo a, HuffmanTreeInfo b)
 {
-	return (a.n < 256 && b.n < 256) ? a.n - b.n : a.c - b.c;
+	return (a.n < 256 && b.n < 256)? a.n - b.n : a.c - b.c;
 }
 
-void crearLista(List<HuffmanTreeInfo> &lista, HuffmaneTable tabla[])
+void crearLista(List<HuffmanTreeInfo>& lista, HuffmaneTable tabla[])
 {
 	int indice = 0;
 	int contador;
@@ -70,14 +70,14 @@ void crearLista(List<HuffmanTreeInfo> &lista, HuffmaneTable tabla[])
 
 void mostrarLista(List<HuffmanTreeInfo> lista)
 {
-	while (listHasNext(lista))
+	while(listHasNext(lista))
 	{
-		HuffmanTreeInfo *p = listNext<HuffmanTreeInfo>(lista);
-		// cout << "[" << p->c << "],{" << p->n << "}" << endl;
+		HuffmanTreeInfo* p = listNext<HuffmanTreeInfo>(lista);
+		cout<<"["<<p->c<<"],{"<<p->n<<"}"<<endl;
 	}
 }
 
-HuffmanTreeInfo *crearNodo(HuffmanTreeInfo *nododer, HuffmanTreeInfo *nodoizq, int i)
+HuffmanTreeInfo* crearNodo(HuffmanTreeInfo* nododer, HuffmanTreeInfo* nodoizq, int i)
 {
 	// Creo un nuevo nodo.
 	HuffmanTreeInfo *newnodo = new HuffmanTreeInfo();
@@ -89,7 +89,7 @@ HuffmanTreeInfo *crearNodo(HuffmanTreeInfo *nododer, HuffmanTreeInfo *nodoizq, i
 	return newnodo;
 }
 
-HuffmanTreeInfo *crearArbol(List<HuffmanTreeInfo> &lista)
+HuffmanTreeInfo* crearArbol(List<HuffmanTreeInfo>& lista)
 {
 	int i = 1;
 	while (listSize(lista) > 1) // mientras que la lista tenga mas de un elemento
@@ -113,7 +113,7 @@ HuffmanTreeInfo *crearArbol(List<HuffmanTreeInfo> &lista)
 	return root;
 }
 
-void cargarCodigosEnTabla(HuffmanTreeInfo *raiz, HuffmaneTable tabla[])
+void cargarCodigosEnTabla(HuffmanTreeInfo* raiz, HuffmaneTable tabla[])
 {
 	HuffmanTree ht = huffmanTree(raiz);
 	string code;
@@ -122,10 +122,10 @@ void cargarCodigosEnTabla(HuffmanTreeInfo *raiz, HuffmaneTable tabla[])
 	{
 		HuffmanTreeInfo *x = huffmanTreeNext(ht, code);
 		tabla[x->c].code = code;
-	}
+	}	
 }
 
-char contarHojas(HuffmaneTable tabla[])
+unsigned char contarHojas(HuffmaneTable tabla[])
 {
 	int cont = 0;
 	for (int i = 0; i <= 255; i++)
@@ -139,26 +139,17 @@ char contarHojas(HuffmaneTable tabla[])
 	return intToChar(cont);
 }
 
-void escribirRegistro(FILE *fc, string code, char caracter)
+void escribirRegistro(FILE *fc, string code, unsigned char caracter)
 {
-	//	cout << caracter << "(" << sizeof(caracter) << "), " << length(code) << "(" << sizeof(intToChar(length(code))) << "), " << code << "(" << sizeof(code) << ")" << endl;
 	write<unsigned char>(fc, caracter);
-	write<unsigned char>(fc, char(length(code)));
+	write<unsigned char>(fc, length(code));
 	for (int i = 0; i < length(code); i++)
 	{
-		write<char>(fc, (char(code[i]) == 49));
-//		if 
-//		{
-//			write<char>(fc, 1);
-//		}
-//		else
-//		{
-//			write<char>(fc, 0);
-//		}
+		write<unsigned char>(fc, (char(code[i]) == 49));
 	}
 }
 
-bool Leyo(char c, int contador[])
+bool Leyo(unsigned char c, int contador[])
 {
 	if (contador[c] > 0)
 		return true;
@@ -171,46 +162,29 @@ bool Leyo(char c, int contador[])
 
 void escribirCodificado(HuffmaneTable tabla[], FILE *f, FILE *fc)
 {
-	// seek<char>(f, 0);
-	// seek<char>(fc, 0);
-	BitWriter bw = bitWriter(fc);
-	//	char c = read<char>(f);
-	for (int i = 0; i < 256; i++)
-	{
-		if (tabla[i].n != 0)
-		{
-			string code = tabla[i].code;
-			//			cout<<code<<endl;
-			bitWriterWrite(bw, code);
-			//			c = read<char>(f);
-		}
-	}
-	//	while (!feof(f))
-	//	{
-	//		string code = tabla[int(c)].code;
-	//		bitWriterWrite(bw, code);
-	//		c = read<char>(f);
-	//	}
-	//	 if (bw.cont != 0)
-	//	 {
-	//	 	int codigo = stringToInt(arrayToString(bw.bits, bw.cont), 2);
-	//	 	char ch = static_cast<char>(codigo);
-	//	 	write<unsigned char>(bw.f, ch);
-	//	 }
-	bitWriterFlush(bw);
+    BitWriter bw = bitWriter(fc);
+
+    seek<unsigned char>(f, 0);
+    unsigned char c = read<unsigned char>(f);
+
+    while (!feof(f))
+    {
+        string code = tabla[int(c)].code;
+        bitWriterWrite(bw, code);
+        c = read<unsigned char>(f);
+    }
+    
+    bitWriterFlush(bw);
 }
 
-void grabarArchivoComprimido(string fName, HuffmaneTable tabla[])
+void grabarArchivoComprimido(string fName,HuffmaneTable tabla[])
 {
 	FILE *f = fopen("prueba.txt", "r+b");
 	FILE *fc = fopen("prueba.txt.huf", "w+b");
-	seek<char>(f, 0);
-	seek<char>(fc, 0);
-	int filesize = fileSize<char>(f);
+	unsigned int filesize = fileSize<char>(f);
+	
 	// 1. 1 byte indicando cuantas hojas conforman el arbol.
-	write<char>(fc, contarHojas(tabla));
-	// 3. 4 bytes indicando longitud del archivo original. Un valor entero sin signo indicando la long. en bytes.
-	write<unsigned int>(fc, filesize);
+	write<unsigned char>(fc, contarHojas(tabla));
 	int canthojas = charToInt(contarHojas(tabla));
 
 	// Creo un contador para saber si un caracter del archivo ya fue leido
@@ -221,40 +195,29 @@ void grabarArchivoComprimido(string fName, HuffmaneTable tabla[])
 	}
 
 	// 2. t registros (uno por cada hoja del arbol)
-	char c = read<char>(f);
-	//	while (!feof(f))
-	//	{
-	//		if (!Leyo(c, contador))
-	//	 	{
-	//	 		string code = tabla[int(c)].code;
-	//	 		cout << "caracter: " << char(c) << ", LengthCode: " << length(code) << ", Code: " << code << endl;
-	//	 		escribirRegistro(fc, code, char(c));
-	//	 	}
-	//	 	c = read<char>(f);
-	//	}
-	int i = 0;
-	while (i < 256)
+	seek<unsigned char>(f,0);
+	unsigned char c = read<unsigned char>(f);
+	while (!feof(f))
 	{
-		if (tabla[i].n != 0)
+		if (!Leyo(c, contador))
 		{
-			string code = tabla[i].code;
-			// cout << "caracter: " << char(i) << ", LengthCode: " << length(code) << ", Code: " << code << endl;
-//			cout << char(i) << "" << length(code) << "" << code << endl;
-			cout << code << endl;
-			escribirRegistro(fc, code, char(i));
+			string code = tabla[int(c)].code;
+			escribirRegistro(fc, code, char(c));
 		}
-		i++;
+		c = read<unsigned char>(f);
 	}
 
+	// 3. 4 bytes indicando longitud del archivo original. Un valor entero sin signo indicando la long. en bytes.
+	write<unsigned int>(fc, filesize);
 
 	// 4. Informacion codificada y comprimida.
-		escribirCodificado(tabla, f, fc);
+	escribirCodificado(tabla, f, fc);
 
 	fclose(f);
 	fclose(fc);
-}
+} 
 
-void recorrerArbol(List<HuffmanTreeInfo> &lista)
+void recorrerArbol(List<HuffmanTreeInfo>& lista)
 {
 	// obtengo el arbol
 	HuffmanTreeInfo *raiz = crearArbol(lista);
@@ -264,99 +227,200 @@ void recorrerArbol(List<HuffmanTreeInfo> &lista)
 
 	string cod;
 	while (huffmanTreeHasNext(ht))
-	{
-		HuffmanTreeInfo *x = huffmanTreeNext(ht, cod);
-	}
+   {
+      HuffmanTreeInfo* x = huffmanTreeNext(ht,cod);
+      cout << char(x->c) << ", ("<<x->n <<"), " << "[" << cod <<"]" << endl;
+   }
 }
 
-void comprimir(string fName)
+void comprimir (string fName)
 {
-	// paso 1
+	//paso 1 
 	HuffmaneTable tabla[256];
 	vaciarTabla(tabla);
-	contarOcurrencias(fName, tabla);
-
-	// paso 2
+	contarOcurrencias (fName,tabla);
+	
+	//paso 2
 	List<HuffmanTreeInfo> lista = list<HuffmanTreeInfo>();
-	crearLista(lista, tabla);
-
-	// paso 3
-	HuffmanTreeInfo *raiz = crearArbol(lista);
-
+	crearLista(lista,tabla);
+	//mostrarLista(lista);
+	
+	//paso 3
+	HuffmanTreeInfo* raiz = crearArbol (lista);
+	//mostrarLista(lista);
+	//recorrerArbol(lista);
+	
 	// Recorro el arbol para obtener los codigos y los cargo en el array de contadores, en el campo code
-	cargarCodigosEnTabla(raiz, tabla);
-
-	// Grabo el archivo comprimido
-	grabarArchivoComprimido(fName, tabla);
+	cargarCodigosEnTabla(raiz,tabla);
+	//recorrerArbol(raiz);
+	
+	//Grabo el archivo comprimido
+	grabarArchivoComprimido (fName,tabla);
 }
 
-string toBinary(int n)
+HuffmanTreeInfo* bajarIzquierda(HuffmanTreeInfo* htInfo)
 {
-	string r;
-	while (n != 0)
+    HuffmanTreeInfo* izq = htInfo->left;
+
+    return izq;
+}
+
+HuffmanTreeInfo* bajarDerecha(HuffmanTreeInfo* htInfo)
+{
+    HuffmanTreeInfo* der = htInfo->right;
+
+    return der;
+}
+
+HuffmanTreeInfo* newNodo(unsigned int c)
+{
+	HuffmanTreeInfo* nodo = new HuffmanTreeInfo;
+	nodo->c = c;
+	nodo->left=NULL;
+	nodo->right=NULL;
+	return nodo;
+}
+
+void agregarAlArbol(HuffmanTreeInfo* raiz,string codificacion,unsigned char c)
+{
+	HuffmanTreeInfo* p = raiz;
+	for(int i =0;i!=length(codificacion);i++)
 	{
-		r += (n % 2 == 0 ? "0" : "1");
-		n /= 2;
+		if(codificacion[i]==48)
+		{
+			//bajo a la izquierda
+			if(p->left==NULL)
+			{
+				HuffmanTreeInfo* nodo = new HuffmanTreeInfo();
+				p->left = nodo;
+			}
+			p = p->left;
+		}
+		else
+		{
+			//bajo a la derecha
+			if(p->right==NULL)
+			{
+				HuffmanTreeInfo* nodo = new HuffmanTreeInfo();
+				p->right = nodo;
+			}
+			p = p->right;
+		}	
 	}
-	return r;
+	p->c=c;
+}
+
+HuffmanTreeInfo* leerRegistros(FILE* f, unsigned char hojas)
+{
+    HuffmanTreeInfo* raiz = new HuffmanTreeInfo();
+    //
+    int cont = 0;
+    int i=0;
+    int size;
+    unsigned char caracter;
+    unsigned char cod = read<char>(f);
+    
+    while(cont < charToInt(hojas))
+    {
+		i=0;
+		string codificacion="";
+		caracter = cod; //guarda caracter
+		cod = read<char>(f);
+		
+		size = int(cod);
+		cod = read<char>(f);
+		while(i<size)
+		{
+			cod = int(cod);
+			codificacion+= intToString(int(cod));
+		
+//			codificacion = insertAt(codificacion,i,cod);
+			cod = read<char>(f);
+			cout<<int(cod)<<endl;
+			i++;
+		}
+		cout<<"Caracter: "<<caracter<<" Codificacion: "<<codificacion<<endl;
+		agregarAlArbol(raiz,codificacion,caracter);
+		cont++;
+    } 
+    
+    return raiz;
+}
+
+void leerInfoComprimida(FILE* f, HuffmanTreeInfo* raiz)
+{
+	FILE* fn = fopen("prueba.txt","w+b");
+    BitReader br = bitReader(f);
+    unsigned char c = bitReaderRead(br);
+    HuffmanTreeInfo* htInfo = raiz;
+	while(!feof(f))
+    {
+        if(c == '0')
+        {
+            htInfo = bajarIzquierda(htInfo);
+        }
+        else if (c == '1')
+        {
+            htInfo = bajarDerecha(htInfo);
+        }
+        if(htInfo->c < 256)
+        {
+            unsigned char caracter = htInfo->c;
+            write<unsigned char>(fn,caracter);
+            htInfo = raiz;
+        }
+        c = bitReaderRead(br);
+    }
+
+    fclose(fn);
 }
 
 void descomprimir(string fName)
 {
-	FILE *f = fopen("prueba.txt.huf", "r+b");
-	// BitReader br = bitReader(f);
-	char c = read<char>(f);
-	cout << "El arbol tiene " << charToInt(c) << " hojas" << endl;
-	int x = read<int>(f);
-	cout << "La longitud del archivo original es de " << x << " bytes" << endl;
-	c = read<char>(f);
-	string todo;
-	int primeraVez = 0;
-	while (!feof(f))
-	{
-		
-		if((int(c) >= 65 && int(c) <= 90) || (int(c) >= 97 && int(c) <= 122)){
-			if(primeraVez != 0){
-				todo+="|";	
-			}else{
-				primeraVez++;
-			}
-			todo+=char(int(c));
-		}else{
-			todo+=intToString(int(c));
-		}
-		c = read<char>(f);
+    FILE* f = fopen("prueba.txt.huf","r+b");
+    //paso 1
+    char c = read<char>(f);
+    while(!feof(f)){
+    	cout<<c;
+    	c = read<char>(f);
 	}
-	cout<<todo<<endl;
-	for(int i = 0; i < tokenCount(todo, '|');i++){
-		string aux = getTokenAt(todo, '|',i);
-		string code;
-		string car;
-		for(int j = 0; j < length(aux);j++){
-			if(j == 0){
-				car = aux[j];
-			}
-			if(j > 1){
-				code+= aux[j];
-			}
-		}
-		
-		cout<<"Hola yo soy el caracter "<<car<<" de longitud "<<length(code)<<" y el code es: "<<code<<endl;
-//		cout<<aux<<endl;
-	}
+	cout<<endl;
+    seek<char>(f, 0);
+    unsigned char hojas = read<unsigned char>(f);
+	cout<<"1 byte indicando hojas que conforman el arbol : "<<charToInt(hojas)<<endl;
+	
+    //paso 2 y 3
+
+    HuffmanTreeInfo* raiz = leerRegistros(f, hojas);
+
+    //paso 4
+    
+    int tam = read<int>(f);
+    //paso 5
+    
+//    HuffmanTree ht = huffmanTree(raiz);
+//
+//	string cod;
+//	while (huffmanTreeHasNext(ht))
+//   {	
+//      HuffmanTreeInfo* x = huffmanTreeNext(ht,cod);
+//      cout << char(x->c) << "[" << cod <<"]" << endl;
+//   }
+	
+//    leerInfoComprimida(f,raiz);
 
 	fclose(f);
 }
 
 int main()
 {
-	// recibo el nombre del archivo
-	// string fName = argv[1];
-
+	//recibo el nombre del archivo
+	//string fName = argv[1];
+	
 	string fName = "prueba.txt";
-
+	
 	// si no termina con ".huf" comprimo
-	if (!endsWith(fName, ".huf"))
+	if(!endsWith(fName,".huf"))
 	{
 		comprimir(fName);
 	}
@@ -365,8 +429,7 @@ int main()
 		descomprimir(fName);
 	}
 	*/
-
-//	 descomprimir("prueba.txt.huf");
+	descomprimir("prueba.txt.huf");
 	return 0;
 }
 
