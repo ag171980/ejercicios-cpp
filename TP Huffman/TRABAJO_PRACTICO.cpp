@@ -328,15 +328,15 @@ HuffmanTreeInfo* leerRegistros(FILE* f, unsigned char hojas)
 		cod = read<char>(f);
 		
 		size = int(cod);
-		cod = read<char>(f);
+		cout<<"tam: "<<size<<endl;
 		while(i<size)
 		{
-			cod = int(cod);
+			//leo primer codigo
+			cod = read<char>(f);
+			cout<<int(cod)<<endl;
 			codificacion+= intToString(int(cod));
 		
 //			codificacion = insertAt(codificacion,i,cod);
-			cod = read<char>(f);
-			cout<<int(cod)<<endl;
 			i++;
 		}
 		cout<<"Caracter: "<<caracter<<" Codificacion: "<<codificacion<<endl;
