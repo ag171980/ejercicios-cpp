@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <stdio.h>
+#include "strings.hpp"
 
 template <typename T>
 void write(FILE *f, T t)
@@ -41,34 +42,29 @@ void seek(FILE *f, int n)
    }
 }
 
-template <typename T>
-int fileSize(FILE *f)
+template<typename T> int fileSize(FILE* f)
 {
-   fseek(f, 0, SEEK_SET);
-   int cont = 0;
-   T t = read<T>(f);
-   while (!feof(f))
-   {
-      t = read<T>(f);
-      cont++;
+  fseek(f,0,SEEK_SET);
+  int a = 0;
+
+   T s = read<T>(f);
+   
+   while( !feof(f) ) {
+      a = a + 1;
+      s = read<T>(f);
    }
-   return cont;
+	seek<T>(f,0);
+
+   return a;
 }
 
-template <typename T>
-int filePos(FILE *f)
+template<typename T> int filePos(FILE* f)
 {
-   T t;
-   int cont = 0;
-   // cout << read<T>(f) << endl;
-   // fseek(f, 0, SEEK_SET);
-   // seek<T>(f,fileSize<T>(f));
-   // while(!feof(f)){
+  int a; 
 
-   // }
-   // cout << "seek_cur: " << fseek(f, 0, SEEK_CUR) << endl;
+   a = ftell(f);
 
-   return 0;
+   return a;
 }
 
 #endif

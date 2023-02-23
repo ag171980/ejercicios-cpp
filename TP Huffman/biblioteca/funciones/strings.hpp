@@ -2,720 +2,605 @@
 #define _TSTRINGS_T_
 
 #include <iostream>
-#include <string>
+#include "potencia.hpp"
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 using namespace std;
-// 1
+
 int length(string s)
 {
-    int i = 0;
-    while (s[i] != '\0')
-    {
-        i++;
-    }
-    return i;
+   int i=0;
+   while (s[i]!='\0')
+   		i++;
+   return i;
 }
-// 2
-int charCount(string s, char c)
-{
-    int i = 0;
-    int cant = 0;
-    while (s[i] != '\0')
-    {
-        if (s[i] == c)
-        {
-            cant++;
-        }
-        i++;
-    }
-    return cant;
-}
-// 3
-string substring(string s, int d, int h)
-{
-    string newStrings = "";
-    for (int i = d; i < h; i++)
-    {
-        newStrings += s[i];
-    }
-    // while (d < h)
-    // {
-    //     newStrings += s[d];
-    //     d++;
-    // }
-    return newStrings;
-}
-// 4
-string substring(string s, int d) // ok
-{
-    string newStrings = "";
 
-    while (d < length(s))
-    {
-        newStrings += s[d];
-        d++;
-    }
-    return newStrings;
-}
-// 5
-int indexOf(string s, char c)
+int charCount(string s,char c)
 {
-    int pos = 0;
-    bool encontrado = false;
-    while (pos <= length(s) && encontrado == false)
-    {
-        if (s[pos] == c)
-        {
-            encontrado = true;
-        }
-        else
-        {
-            pos++;
-        }
-    }
-    return (pos == length(s) + 1) ? -1 : pos;
+   int i=0,cont=0;
+   while(s[i]!='\0')
+	{
+		if(s[i]==c)
+			cont++;
+		i++;	
+	}
+   return cont;
 }
-// 6
-int indexOf(string s, char c, int offSet) // ok
-{
-    bool encontrado = false;
-    while (!encontrado)
-    {
-        (s[offSet] == c) ? encontrado = true : offSet++;
-    }
-    return offSet;
-}
-// 7
-int indexOf(string s, string toSearch) // ok
-{
-    int posString = 0, posSearch = 0, posToStart = -1;
-    string newString = "";
-    bool encontrado = false;
-    while (posString < length(s) && encontrado == false)
-    {
-        if (toSearch[posSearch] == s[posString])
-        {
-            if (posSearch == length(toSearch) - 1)
-            {
-                posToStart = posString - posSearch;
-                encontrado = true;
-            }
-            posSearch++;
-        }
-        else
-        {
-            posSearch = 0;
-        }
-        posString++;
-    }
 
-    return posToStart;
-}
-// 8
-int indexOf(string s, string toSearch, int offset) // ok
+string substring(string s,int d,int h)
 {
-    int posString = offset;
-    int posSearch = 0;
-    int posToStart = -1;
-    string newString = "";
-    bool encontrado = false;
-    while (posString < length(s) && encontrado == false)
-    {
-        if (toSearch[posSearch] == s[posString])
-        {
-            if (posSearch == length(toSearch) - 1)
-            {
-                posToStart = posString - posSearch;
-                encontrado = true;
-            }
-            posSearch++;
-        }
-        else
-        {
-            posSearch = 0;
-        }
-        posString++;
-    }
+	string x="";
+	int vueltas=(h-d);
+	int i=d;
+	for(int cantvueltas=0;cantvueltas<vueltas;cantvueltas++)
+	{
+		x+=s[i];
+		i++;
+	}
+   return x;
+}
 
-    return posToStart;
-}
-// 9
-int lastIndexOf(string s, char c)
+string substring(string s,int d) // ok
 {
-    int pos = 0;
-    int posEncontrado = -1;
-    while (pos <= length(s))
-    {
-        if (s[pos] == c)
-        {
-            posEncontrado = pos;
-        }
-        pos++;
-    }
-    return posEncontrado;
+   	string x;
+	for(int i=d;s[i]!='\0';i++)
+	{
+		x+=s[i];
+	}
+   return x;
 }
-// 10
-int indexOfN(string s, char c, int n)
-{
-    int posEncontrado = -1, cantCharacter = 1;
-    for (int pos = 0; pos < length(s); pos++)
-    {
-        if (s[pos] == c)
-        {
-            if (cantCharacter == n)
-            {
-                posEncontrado = pos;
-            }
-            cantCharacter++;
-        }
-    }
 
-    return (n > charCount(s, c)) ? length(s) : posEncontrado;
+int indexOf(string s,char c) // ok
+{
+	int i=0;
+	for(i ;s[i] != '\0'; i++ )
+	{
+		if(s[i]==c)
+			return i;
+	}
+	if(i>=length(s))
+		return -1;
 }
-// 11
+
+int indexOf(string s,char c,int offSet) // ok
+{
+	while(s[offSet]!=c)
+	{
+		offSet++;
+	}
+	return offSet;
+}
+
+int indexOf(string s,string toSearch) // ok
+{
+	int posicion_palabra=0;
+	bool valorAsignado=false;
+	for(int i=0;s[i]!='\0';i++)
+	{
+		if(substring(s,i,length(toSearch)+i)== toSearch && !valorAsignado)
+		{
+			posicion_palabra=i;
+			valorAsignado=true;
+		}
+	}
+	if(!valorAsignado)
+		return -1;
+ return posicion_palabra;
+		
+}
+
+int indexOf(string s,string toSearch,int offset) // ok
+{
+	int posicion_palabra=0;
+	bool valorAsignado=false;
+	for(int i=offset;s[i]!='\0';i++)
+	{
+		if(substring(s,i,length(toSearch)+i)== toSearch && !valorAsignado)
+		{
+			posicion_palabra=i;
+			valorAsignado=true;
+		}
+	}
+	if(!valorAsignado)
+		return -1;
+	return posicion_palabra;
+}
+
+int lastIndexOf(string s,char c)
+{
+  	int i=length(s);
+	while(s[i]!=c)
+	{
+		i--;
+	}
+	if(i<0)
+		return -1;
+	else
+		return i; 
+}
+
+int indexOfN(string s,char c,int n)
+{
+   	int i=0,cont=0;
+	bool aparicion=false;
+	while(s[i]!='\0' && !aparicion)
+	{
+		i++;
+		if(s[i]==c)
+		{
+			cont++;
+			if(cont==n)
+				aparicion=true;
+		}
+	}
+	if(n==0)
+		return -1;
+	else if(n>cont)
+		return length(s);
+	else
+		return i;
+}
+
 int charToInt(char c)
 {
-    int res;
-    if (c >= 49 && c <= 57 || c >= 65 && c <= 70 || c >= 97 && c <= 102)
-    {
-        res = (c <= 57) ? c - 48 : ((c > 70 && c <= 102) ? c - 87 : c - 55);
-    }
-    else
-    {
-        res = c;
-    }
-    return res;
+	int i,k;
+	for(i=48;i!=c;i++)
+	{
+	}
+	if(i==48)
+		k=0;
+	else if(i==49)
+		k=1;
+	else if(i==50)
+		k=2;
+	else if(i==51)
+		k=3;
+	else if(i==52)
+		k=4;
+	else if(i==53)
+		k=5;
+	else if(i==54)
+		k=6;
+	else if(i==55)
+		k=7;
+	else if(i==56)
+		k=8;
+	else if(i==57)
+		k=9;
+	if(i==65 || i==97)
+		k=10;
+	else if(i==66 || i==98)
+		k=11;
+	else if(i==67 || i==99)
+		k=12;
+	else if(i==68 || i==100)
+		k=13;
+	else if(i==69 || i==101)
+		k=14;
+	else if(i==70 || i==102)
+		k=15;
+	return k;
+//Recibe entre 0 y 9
+// si le mando '1' me devuelve int 1. asi hasta el 9
+//Recibe entre A y F donde A es 10 y F es 15. minusculas tambien.
 }
-// 12
+
 char intToChar(int i)
 {
-    char c;
-    if (i >= 0 && i <= 9 || i >= 10 && i <= 15)
-    {
+	char k;
+	int s;
+	if(i<10)
+	{
+		s=0;
+		for(k=48;s<10;s++)
+		{
+			if(i==s)
+			{
+				return k;
+			}
+			k++;
+		}
+	}
+	else if(i>=10)
+	{
+		s=10;
+		for(k=65;s<35;s++)
+		{
+			if(i==s)
+			{
+				return k;
+			}
+			k++;
+		}
+	}
+}
 
-        c = (i <= 9) ? i + 48 : i + 55;
-    }
-    else
-    {
-        c = i;
-    }
-    return c;
-}
-// 13
-int getDigit(int n, int i)
+int getDigit(int n,int i)
 {
-    double p = pow(10, i);
-    int x = n / (int)p;
-    return x % 10;
+	bool resolvio=false;
+	int digit=0;
+	for(int s=0;!resolvio;s++)
+	{
+		if(i==s)
+		{
+			digit=n%potencia(10,s+1);
+			digit=digit/potencia(10,s);
+			resolvio=true;
+		}
+	}
+	return digit;
 }
-// 14 dudosa
+
 int digitCount(int n)
 {
-    string num = to_string(n);
-    return length(num);
+	bool resolvio=false;
+	int cont=0;
+	for(int i=0;!resolvio;i++)
+	{
+		if(getDigit(n,i)>0)
+		{
+			cont++;
+		}
+		else if(getDigit(n,i)==0)
+		{
+			if((n/potencia(10,cont))/1 >0)
+				cont++;
+			else if((n/potencia(10,cont))/1==0)
+			{
+				resolvio=true;
+			}
+		}
+	}
+	return cont;
 }
-// 15
+
 string intToString(int i)
 {
-    string ret = "";
-    for (int a = digitCount(i); a > 0; a--)
-    {
-        ret += getDigit(i, a - 1) + 48;
-    }
-    return ret;
+   string s ="";
+   int tamanio,digito,cont=1;
+   char digitochar;
+   tamanio = digitCount(i);
+   while(cont <= tamanio)
+   {
+		digito = getDigit(i,tamanio-cont);
+   		digitochar = intToChar(digito);
+   		s = s+digitochar;
+   		cont++;
+   }
+   return s;
 }
-// 16
-int stringToInt(string s, int b)
-{
-    int result = 0, conversion = 0, posW = 0;
-    int numPow = 1;
-    int stringLength = length(s);
-    if (b == 2)
-    {
-        for (; stringLength > 0; stringLength--)
-        {
-            if (s[stringLength - 1] == '1')
-            {
-                for (int pow = 0; pow < posW; pow++)
-                {
-                    numPow *= 2;
-                }
-                conversion += numPow;
-                numPow = 1;
-            }
-            posW++;
-        }
-    }
-    else if (b == 16)
-    {
-        int valueConverted = 0;
-        for (; stringLength > 0; stringLength--)
-        {
-            valueConverted = charToInt(s[stringLength - 1]);
 
-            for (int pow = 0; pow < posW; pow++)
-            {
-                numPow *= 16;
-            }
-            conversion += valueConverted * numPow;
-            numPow = 1;
-            posW++;
-        }
-    }
-    else
-    {
-        conversion = stoi(s);
-    }
-    result = conversion;
-    return result;
-}
-// 17
-int stringToInt(string s)
+int stringToInt(string s,int b) // ok
 {
-    double num = 0;
-    int posReverse = length(s) - 1;
-    for (int pos = 0; pos < length(s); pos++)
-    {
-        int val = (s[pos] - 48);
-        num += val * pow(10, posReverse);
-        posReverse--;
-    }
-    return num;
+	int n = length(s);
+	int newInt = 0, m = n - 1;
+	for (int j = 0; j < n; j++) 
+	{
+		int i = s[j];          //Asigna el valor ascii del caracter al int i.
+		if (i >= 65 && i <= 70) //Si es una letra entre A y F
+		{
+			int k = (s[j] - 55);
+			newInt += k * potencia(b, m);
+		}
+		else                   //si no es una letra
+		{
+			int k = (s[j] - 48);
+			newInt += k * potencia(b, m);
+		}
+		m--;
+	}
+	return newInt;
 }
-// 18
+
+int stringToInt(string s) // ok
+{
+   return stringToInt(s,10);
+}
+
 string charToString(char c)
 {
-    string result;
-    result = c;
-    return result;
+   string s;
+   s += c;
+   return s;
 }
-// 19
+
 char stringToChar(string s)
 {
-    char character;
-    for (int pos = 0; pos < length(s); pos++)
-    {
-        character = s[pos];
-    }
-    return character;
+   int i=s[0];
+   char c=i;
+   return c;
 }
-// 20
+
 string stringToString(string s)
 {
-    return s;
+   return s;
 }
-// 21
+
 string doubleToString(double d)
 {
-    int count = 0, i = d;
-    string newString = intToString(i), decimalString = "";
-    double numComa = d - i;
-    while (d > i)
-    {
-        d *= 10;
-        i = d;
-        count++;
-    }
-    numComa *= pow(10, count);
-    decimalString += intToString(numComa);
-    newString += "." + decimalString;
-    return newString;
+	char s[10];
+	sprintf(s,"%.5f",d);
+	return s;
 }
-// 22
+
 double stringToDouble(string s)
 {
-    double numFinal = 0, numFracc = 0, numEntero = 0;
-    bool fraccion = false;
-    int posReverse = indexOf(s, ".") - 1;
-    for (int pos = 0; pos < length(s); pos++)
-    {
-        double val = (s[pos] - 48);
-        if (val != -2 && !fraccion)
-        {
-            numEntero += (val * pow(10, posReverse));
-            posReverse--;
-        }
-        else
-        {
-            fraccion = true;
-        }
-        if (fraccion)
-        {
-            if (val != -2)
-            {
-                numFracc += val * pow(10, posReverse);
-                posReverse--;
-            }
-        }
-    }
-
-    return numEntero + numFracc;
+   double d = atof(s.c_str());  
+   return d;
 }
-// 23
+
 bool isEmpty(string s)
 {
-    bool empty = false;
-    if (length(s) == 0)
-    {
-        empty = true;
-    }
-    return empty;
-}
-// 24
-bool startsWith(string s, string x)
-{
-    int posX = 0, lengthX = length(x) - 1;
-    bool startWord = false;
-    for (int pos = 0; pos < length(s) - 1; pos++)
-    {
-        if (s[pos] == x[posX] && s[0] == x[0])
-        {
-            if (posX == lengthX)
-            {
-                startWord = true;
-            }
-            posX++;
-        }
-    }
-    return startWord;
-}
-// 25
-bool endsWith(string s, string x)
-{
-    int lengthX = length(x), lengthS = length(s) - 1;
-    int posX = lengthX - 1, posS = 0;
-    bool endsWord = false;
-    for (; lengthS >= 0; lengthS--)
-    {
-        if (s[lengthS] == x[posX])
-        {
-            posS++;
-            posX--;
-        }
-    }
-    if (posS == lengthX)
-    {
-        endsWord = true;
-    }
-    return endsWord;
-}
-// 26
-bool contains(string s, char c)
-{
-    bool contain = false;
-    for (int pos = 0; pos < length(s); pos++)
-    {
-        if (s[pos] == c)
-        {
-            contain = true;
-        }
-    }
-    return contain;
-}
-// 27
-string replace(string s, char oldChar, char newChar)
-{
-    for (int pos = 0; pos < length(s); pos++)
-    {
-        if (s[pos] == oldChar)
-        {
-            s[pos] = newChar;
-        }
-    }
-    return s;
-}
-// 28
-string insertAt(string s, int pos, char c)
-{
-    string text = s;
-    s += " ";
-    int len = length(text);
-    char axe;
-
-    for (int i = 0; i < len; i++)
-    {
-        if (pos == i)
-        {
-            axe = s[i];
-            s[i] = c;
-            s[i + 1] = axe;
-        }
-        if (pos < i)
-        {
-            s[i + 1] = text[i];
-        }
-    }
-    return s;
-}
-// 29
-string removeAt(string s, int pos)
-{
-    string newString, ant = "", desp = "";
-    for (int i = 0; i < length(s); i++)
-    {
-        if (pos < i)
-        {
-            ant += s[i];
-        }
-        else
-        {
-            if (pos != i)
-            {
-                desp += s[i];
-            }
-        }
-    }
-    newString = desp + ant;
-    return newString;
+	if(length(s)==0)
+		return true;
+	else
+		return false;
 }
 
-// 30
+bool startsWith(string s,string x)
+{
+	int desde=0,hasta = length(x);
+	string subcadena = substring(s,desde,hasta);
+	if(subcadena==x)
+		return true;
+	else
+		return false;
+}
+
+bool endsWith(string s,string x)
+{
+   	int hasta = length(s), desde = hasta - length(x);
+	string subcadena = substring(s,desde,hasta);
+	if(subcadena==x)
+		return true;
+	else
+		return false;
+}
+
+bool contains(string s,char c)
+{
+	if(charCount(s,c)>0)
+		return true;
+	else
+		return false;
+}
+
+string replace(string s,char oldChar,char newChar)
+{
+	string x = "";
+	if(contains(s,oldChar))
+	{
+		for(int i=0;i<length(s);i++)
+		{
+			if(s[i]==oldChar)
+			{
+				x += newChar;
+			}
+			else
+				x += s[i];
+		}
+	}
+	return x;
+}
+
+string insertAt(string s,int pos,char c)
+{
+	string x = "";
+	x += substring(s,0,pos);
+	x += c;
+	x += substring(s,pos);
+	return x;
+}
+
+string removeAt(string s,int pos)
+{
+   string x = "";
+   x += substring(s,0,pos);
+   x += substring(s,pos+1);
+   return x;
+   
+}
+
 string ltrim(string s)
 {
-    string newString = "";
-    bool firstL = false;
-    for (int pos = 0; pos < length(s); pos++)
-    {
-        if (s[pos] != 32)
-        {
-            if (!firstL)
-            {
-                firstL = true;
-            }
-            newString += s[pos];
-        }
-        else if (s[pos] == 32 && firstL)
-        {
-            newString += s[pos];
-        }
-    }
-    return newString;
+	string vacio =" ";
+	while(startsWith(s,vacio))
+	{
+		s= removeAt(s,0);
+	}
+	return s;
 }
-// 31
+
 string rtrim(string s)
 {
-    string otherString = "", newString = "";
-    int posR = length(s) - 1;
-    for (int pos = 0; pos < length(s); pos++)
-    {
-        newString += s[posR];
-        posR--;
-    }
-    newString = ltrim(newString);
-    posR = length(newString) - 1;
-    for (int pos = 0; pos < length(newString); pos++)
-    {
-        otherString += newString[posR];
-        posR--;
-    }
-    return otherString;
+	string vacio=" ";
+	while(endsWith(s,vacio))
+	{
+		s = removeAt(s,length(s)-1);
+	}
+	return s;
 }
-// 32
+
 string trim(string s)
 {
-    return ltrim(rtrim(s));
+	s = ltrim(s);
+	s = rtrim(s);
+	return s;
 }
-// 33
-string replicate(char c, int n)
+
+string replicate(char c,int n)
 {
-    string newString = "";
-    for (int i = 0; i < n; i++)
-    {
-        newString += c;
-    }
-    return newString;
+	string x = "";
+	int i = 0;
+	while(length(x)<n)
+	{
+		x+=c;
+		i++;
+	}
+	return x;
 }
-// 34
+
 string spaces(int n)
 {
-    string newString = "";
-    for (int i = 0; i < n; i++)
-    {
-        newString += " ";
-    }
-    return newString;
+	string x;
+	x = replicate (' ',n);
+	return x;
 }
-// 35
-string lpad(string s, int n, char c)
+
+string lpad(string s,int n,char c)
 {
-    string newString = "";
-    int len = length(s);
-    int cont = 0;
-    for (int i = 0; i < n; i++)
-    {
-        if (i < (n - len))
-        {
-            newString += c;
-        }
-        else
-        {
-            newString += s[cont];
-            cont++;
-        }
-    }
-    return newString;
+	int longitud = length(s);
+	int agregar = n - longitud;
+	while(agregar>0)
+	{
+		s = insertAt(s,0,c);
+		agregar--;
+	}
+	return s;
 }
-// 36
-string rpad(string s, int n, char c)
+
+string rpad(string s,int n,char c)
 {
-    string newString = "";
-    for (int i = 0; i < n; i++)
-    {
-        if (i < length(s))
-        {
-            newString += s[i];
-        }
-        else
-        {
-            newString += c;
-        }
-    }
-    return newString;
+	int longitud = length(s);
+	int agregar = n - longitud;
+	while(agregar>0)
+	{
+		s = insertAt(s,longitud,c);
+		agregar--;
+	}
+	return s;
 }
-// 37
-string cpad(string s, int n, char c)
+
+string cpad(string s,int n,char c)
 {
-    string newString = "";
-    int contador = 1;
-    int cantX = (n - length(s)) / 2;
-    for (int i = 0; i < n; i++)
-    {
-        if (i < cantX)
-        {
-            newString += c;
-        }
-        else if (i >= (length(s) + cantX))
-        {
-            newString += c;
-        }
-        else
-        {
-            newString += s[contador - 1];
-            contador++;
-        }
-    }
-    return newString;
+	string x = s;
+	int longitud = length(s);
+	int agregar = n - longitud;
+	while(agregar>0)
+	{
+		x = rpad(x,length(x)+1,c);
+		agregar--;
+		if(agregar>0)
+			x = lpad(x,length(x)+1,c);
+		agregar--;
+	}
+	return x;
 }
-// 38
+
 bool isDigit(char c)
 {
-    bool digit = false;
-    int num = c;
-    if (num >= 48 && num <= 57)
-    {
-        digit = true;
-    }
-    return digit;
+	if(charToInt(c)>=0 && charToInt(c)<10)
+		return true;
+	else
+		return false;
 }
-// 39
+
 bool isLetter(char c)
 {
-    return (!isDigit(c)) ? true : false;
+	int d = (int)c;
+	if((d>=65 && d<=90) || (d>=97 && d<=122))  	
+		return true;
+	else
+		return false;
 }
-// 40
+
 bool isUpperCase(char c)
 {
-    bool isUpper = false;
-    int num = c;
-    if (num >= 65 && num <= 90)
-    {
-        isUpper = true;
-    }
-
-    return isUpper;
+	int d = (int)c;
+	if(d>=65 && d<=90) 	
+		return true;
+	else
+		return false;
 }
-// 41
+
 bool isLowerCase(char c)
 {
-    return (!isUpperCase(c)) ? true : false;
+	int d = (int)c;
+	if(d>=97 && d<=122) 	
+		return true;
+	else
+		return false;
 }
-// 42
+
 char toUpperCase(char c)
 {
-    int res = c - 32;
-    return res;
+	int d = (int)c;
+	if(isLowerCase(c))
+		c = d-32;
+	return c;
 }
-// 43
+
 char toLowerCase(char c)
 {
-    int res = c + 32;
-    return res;
+	int d = (int)c;
+	if(isUpperCase(c))
+		c = d+32;
+	return c;	
 }
-// 44
+
 string toUpperCase(string s)
 {
-    string newString = "";
-    for (int i = 0; i < length(s); i++)
-    {
-        newString += (s[i] - 32);
-    }
-    return newString;
+	string x = "";
+	for(int i=0;i<length(s);i++)
+	{
+		char r = toUpperCase(s[i]);
+		x += r;
+	}
+	return x;
 }
-// 45
+
 string toLowerCase(string s)
 {
-    string newString = "";
-    for (int i = 0; i < length(s); i++)
-    {
-        newString += (s[i] + 32);
-    }
-    return newString;
+	string x = "";
+	for(int i=0;i<length(s);i++)
+	{
+		char r = toLowerCase(s[i]);
+		x += r;
+	}
+	return x;
 }
-// 46 FALTA
-int cmpString(string a, string b)
-{
-    int result = 0;
-    if (a != b)
-    {
-        result = (a > b) ? 1 : -1;
-    }
-    else
-    {
-        result = 0;
-    }
 
-    // int i = 0;
-    // bool encontrado = false;
-    // int n, n2;
-    // while (i < length(a) && encontrado == false)
-    // {
-    //     n = a[i];
-    //     n2 = b[i];
-    //     if (n > n2)
-    //     {
-    //         result = 1;
-    //         encontrado = true;
-    //     }
-    //     else
-    //     {
-    //         if (n < n2)
-    //         {
-    //             result = -1;
-    //             encontrado = true;
-    //         }
-    //         else
-    //         {
-    //             i++;
-    //         }
-    //     }
-    // }
-    return result;
+int cmpString(string a,string b)
+{
+	char c,d;
+	int i = 0,letra1,letra2;
+	bool entra=true;
+	while(entra)
+	{
+		letra1 = (int)a[i];
+		letra2 = (int)b[i];
+		if(letra1>letra2)
+			return 1;
+		else if(letra1<letra2)
+			return -1;
+		else if(a==b)
+			return 0;
+		else if(letra1==letra2)
+		{
+			i++;
+		}
+	}
 }
-// 47
-int cmpDouble(double a, double b)
-{
-    int result;
-    if (a != b)
-    {
-        result = (a > b) ? 1 : -1;
-    }
-    else
-    {
-        result = 0;
-    }
 
-    return result;
+int cmpDouble(double a,double b)
+{
+	string c = doubleToString(a);
+	string d = doubleToString(b);
+	int result = cmpString(c,d);
+	if(result>0)
+		return result;
+	else if(result<0)
+		return result;
+	else if(result==0)
+		return result;
 }
 
 #endif
+
+
+
+
+
+
+

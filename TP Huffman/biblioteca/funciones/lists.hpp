@@ -95,7 +95,6 @@ T removeFirst(Node<T>*& p)
 	T t = p->info;
 	Node<T>* aux = p->sig;
 	p=aux;
-	
 	return t;
 }
 

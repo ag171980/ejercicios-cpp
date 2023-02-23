@@ -3,190 +3,177 @@
 
 #include <iostream>
 #include "../funciones/strings.hpp"
-#include "../funciones/tokens.hpp"
 
 using namespace std;
-// OKcollSize
-// OKcollRemoveAll
-// OKcollRemoveAt
-// OKcollAdd
-// OKcollSetAt
-// OKcollGetAt
-// OKcollFind
-// OKcollSort
 
-// OKcollHasNext
-// OKcollNext
-// OKcollNext
-// OKcollReset
-template <typename T>
+template<typename T>
 struct Coll
 {
-   int pos;
-   char sep;
-   string s;
+	//cadena tokenizada
+	string s;
+	char sep;
+	int i;
 };
-// OK
-template <typename T>
+
+template<typename T> //template es una funcion que parametriza los tipos de sus parametros
 Coll<T> coll(char sep)
 {
-   Coll<T> c;
-   c.s = "";
-   c.sep = sep;
-   c.pos = 0;
-   return c;
+	Coll<T> c;
+	c.s = "";
+	c.sep = sep;
+	return c;	
 }
-// OK
-template <typename T>
+
+template<typename T>
 Coll<T> coll()
 {
-   Coll<T> c;
-   c.s = "";
-   c.sep = '|';
-   c.pos = 0;
-   return c;
+	Coll<T> c;
+	c.s = "";
+	c.sep = '|';
+	return c;
 }
-// OK
-template <typename T>
+
+template<typename T>
 int collSize(Coll<T> c)
 {
-   return tokenCount(c.s, c.sep);
+	return tokenCount(c.s,c.sep);
 }
-// OK
-template <typename T>
-void collRemoveAll(Coll<T> &c)
-{
 
-   for (int i = 0; i <= collSize<T>(c); i++)
-   {
-      if (i == collSize<T>(c))
-      {
-         c.s = "";
-      }
-      else
-      {
-         removeTokenAt(c.s, c.sep, 0);
-      }
-   }
-}
-// OK
-template <typename T>
-void collRemoveAt(Coll<T> &c, int p)
+template<typename T>
+void collRemoveAll(Coll<T>& c)
 {
-   removeTokenAt(c.s, c.sep, p);
+	int i = collSize(c);
+	for(int k=0;k<i;k++)
+	{
+		removeTokenAt(c.s,c.sep,0);
+	}
 }
-// OK
-template <typename T>
-int collAdd(Coll<T> &c, T t, string tToString(T))
+
+template<typename T>
+void collRemoveAt(Coll<T>& c, int p)
 {
-   addToken(c.s, c.sep, tToString(t));
-   return collSize<T>(c) - 1;
+	removeTokenAt(c.s,c.sep,p);
 }
-// OK
-template <typename T>
-void collSetAt(Coll<T> &c, T t, int p, string tToString(T))
+
+template<typename T>
+int collAdd(Coll<T>& c,T t,string tToString(T))
 {
-   setTokenAt(c.s, c.sep, tToString(t), p);
+   addToken(c.s,c.sep,tToString(t)); //ahi agregue a la cadena tokenizada un token que representa al elemento t.
+   return tokenCount(c.s,c.sep)-1;
 }
-// OK
+
 template <typename T>
-T collGetAt(Coll<T> c, int p, T tFromString(string))
+void collSetAt(Coll<T>& c,T t,int p,string tToString(T))
 {
-   string s = (tokenCount(c.s, c.sep) > 1) ? getTokenAt(c.s, c.sep, p) : c.s;
-   T t = tFromString(s);
+	string x = tToString(t);
+	setTokenAt(c.s,c.sep,x,p);
+}
+
+template <typename T>
+T collGetAt(Coll<T> c,int p,T tFromString(string))
+{
+   T t = tFromString(getTokenAt(c.s,c.sep,p)); //me devuelve un string.
    return t;
 }
-// OK
-template <typename T, typename K>
-int collFind(Coll<T> c, K k, int cmpTK(T, K), T tFromString(string))
-{
-   T f;
-   bool encontrado = false;
-   int aux = 0;
-   f = collGetAt<T>(c, aux, tFromString);
-   while (aux < collSize<T>(c) && encontrado == false)
-   {
-      if (cmpTK(f, k) != 0)
-      {
-         aux++;
-         f = collGetAt<T>(c, aux, tFromString);
-      }
-      else
-      {
-         encontrado = true;
-      }
-   }
 
-   return (encontrado) ? aux : -1;
-}
-// a probar
-template <typename T>
-void collSort(Coll<T> &c, int cmpTT(T, T), T tFromString(string), string tToString(T))
+template <typename T, typename K>
+int collFind(Coll<T> c,K k,int cmpTK(T,K),T tFromString(string))
 {
-   for (int i = 0; i < collSize<T>(c); i++)
+  int h = tokenCount(c.s,c.sep);
+  int i = 0 ;
+  int ret = -1;
+
+  while(i<h)
+  {
+     string x = getTokenAt(c.s,c.sep,i);
+     T p = tFromString(x);
+     if(cmpTK(p,k)==0)
+     {
+        ret = i;
+     }
+     i++;
+  }
+   return ret;
+}
+
+template <typename T>
+void collSort(Coll<T>& c,int cmpTT(T,T),T tFromString(string),string tToString(T))
+{ 
+	T a, b, aux;
+   bool ordenado = false;
+
+   while(!ordenado)
    {
-      for (int j = i + 1; j < collSize<T>(c); j++)
-      {
-         T cmp1 = collGetAt<T>(c, i, tFromString);
-         T cmp2 = collGetAt<T>(c, j, tFromString);
-         if (cmpTT(cmp1, cmp2) > 0)
-         {
-            collSetAt<T>(c, cmp2, i, tToString);
-            collSetAt<T>(c, cmp1, j, tToString);
+      ordenado = true;
+      for(int i=0; i<collSize<T>(c)-1; i++)
+	  {
+         a = collGetAt<T>(c, i, tFromString);
+         b = collGetAt<T>(c, i+1, tFromString);
+
+         if(cmpTT(a, b) > 0)
+		 {
+            aux = a;
+            a = b;
+            b = aux;
+            collSetAt<T>(c, a, i, tToString);
+            collSetAt<T>(c, b, i+1, tToString);
+            ordenado = false;
          }
       }
    }
 }
 
-// Probado
-template <typename T>
-bool collHasNext(Coll<T> c)
+template<typename T>
+bool collHasNext(Coll<T>& c)
 {
-   return collSize<T>(c) > c.pos;
-}
-// Probado
-template <typename T>
-T collNext(Coll<T> &c, T tFromString(string))
-{
-   T t = tFromString(getTokenAt(c.s, c.sep, c.pos));
-   c.pos++;
-   return t;
-}
-// Probado
-template <typename T>
-T collNext(Coll<T> &c, bool &endOfColl, T tFromString(string))
-{
-   T t;
-   if (c.pos < collSize<T>(c))
-   {
-      t = collNext<T>(c, tFromString);
-   }
-   else
-   {
-      endOfColl = true;
-   }
-   return t;
-}
-// OK
-template <typename T>
-void collReset(Coll<T> &c)
-{
-   c.pos = 0;
+	return c.i<collSize(c);
 }
 
-template <typename T>
+template<typename T>
+T collNext(Coll<T>& c,T tFromString(string))
+{
+	T t=collGetAt(c,c.i,tFromString);
+	c.i++;
+	return t;
+}
+
+template<typename T>
+T collNext(Coll<T>& c,bool& endOfColl,T tFromString(string))
+{
+	endOfColl = false;
+	T t;
+	if(c.i<collSize<T>(c))
+	{
+		collGetAt<T>(c,c.i,tFromString);
+		c.i++;
+	}
+	else
+	{
+		endOfColl = true;
+	}
+	return t;
+}
+
+template<typename T>
+void collReset(Coll<T>& c)
+{
+	c.i=0;
+}
+
+template<typename T>
 string collToString(Coll<T> c)
 {
-   return c.sep + c.s;
+	return c.sep+c.s;
 }
 
-template <typename T>
+template<typename T>
 Coll<T> collFromString(string s)
 {
-   Coll<T> c;
-   c.sep = s[0];
-   c.s = substring(s, 1);
-   return c;
+	Coll<T> c;
+	c.sep=s[0];
+	c.s=substring(s,1);
+	return c;
 }
+
 
 #endif
